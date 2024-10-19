@@ -1,47 +1,16 @@
 ---
+import About from '../components/About.astro';
+import Hero from '../components/Hero.astro';
+import Projects from '../components/Projects.astro';
+import Reviews from '../components/Reviews.astro';
+import Services from '../components/Services.astro';
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/Navbar.astro';
 ---
 
 <Layout title="Federico Sánchez - Front-End Developer">
-	<main>
-		<section class="p-20">
-			<h1
-				class="text-[3rem] leading-[3.75rem] text-[#EFA6F5] uppercase sm:text-[8rem] sm:leading-[125px]"
-			>
-				Creando <span class="text-[#6976DF]">experiencias</span> digitales
-			</h1>
-
-			<p
-				class="text-xl w-[500px] md:absolute right-[450px] top-[200px] sm:text-2xl"
-			>
-				Comprometido en diseñar y desarrollar productos digitales de
-				alta calidad, utilizando las últimas tecnologías y prácticas
-				innovadoras para impulsar tu proyecto.
-			</p>
-			<img
-				class="md:absolute right-[880px] top-[270px] z-10"
-				src="/public/investigacion-desarrollo-diseno.svg"
-				alt="Icono investigación, desarrollo, diseño"
-			/>
-		</section>
-		<section class="w-full rotate-[5deg] mt-12">
-			<div class="bg-[#242229] py-7 pb-8 px-9">
-				<p class="text-5xl font-black text-white carrusel-texto">
-					<span>DESARROLLO WEB</span>
-					<span>CREATIVIDAD</span>
-					<span>DISEÑO</span>
-					<span>SEO</span>
-					<span>ESTRATEGIA</span>
-				</p>
-			</div>
-		</section>
-		<section class="w-full rotate-[-5deg]">
-			<div class="bg-[#242229] py-7 pb-8 px-9">
-				<p class="text-5xl font-black text-white carrusel-texto">
-					DESARROLLO WEB CREATIVIDAD DISEÑO SEO ESTRATEGIA
-				</p>
-			</div>
-		</section>
-	</main>
+	<Hero />
+	<Services />
+	<About />
+	<Projects />
+	<Reviews />
 </Layout>
