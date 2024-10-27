@@ -8,9 +8,11 @@ export default {
 				'primary-pink': '#EFA6F5',
 				'light-purple': '#BBC5F7',
 				'dark-purple': '#5A65DC',
+				'gradient': '#F5C6CB',
 			  },
 			backgroundImage: {
 				'lightpurple-pattern': "url('/public/fondo-lila.svg')",
+				'gradient-bg': 'linear-gradient(180deg, rgba(239,166,245,0.202) 0%, rgba(19,18,23,0.367) 50%)',
 			  }
 		},
 	},
