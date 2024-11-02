@@ -15,6 +15,13 @@ import ProjectsCard from './ProjectsCard.astro';
         </p>
     </div>
 </section>
-<section class="grid grid-cols-2 gap-11 w-[1600px] mx-auto">
-    <ProjectsCard />
+<section class="grid grid-cols-2 gap-11 w-[1600px] mx-auto mb-40">
+    <ProjectsCard limit={2} />
+    <div class="col-span-2 flex justify-center w-full">
+        <a
+            href="/proyectos"
+            class="w-80 text-center p-5 text-4xl font-medium text-primary-purple border border-white rounded-full hover:bg-primary-pink hover: hover:border-primary-purple"
+            >MÁS PROYECTOS</a
+        >
+    </div>
 </section>

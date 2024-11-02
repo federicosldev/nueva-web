@@ -1,20 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 
-interface Props {
-    limit?: number;
-}
-
-const { limit } = Astro.props;
-
-const allProjects = await getCollection('projects');
-const projects = limit ? allProjects.slice(0, limit) : allProjects;
+const reviews = await getCollection('reviews');
 ---
 
 {
-    projects.map(project => {
-        const { slug, data } = project;
-        const { name, type, img, tag1, tag2 } = data;
+    reviews.map(review => {
+        const { slug, data } = review;
+        const { name, cargo, img, message } = data;
         return (
             <article class="relative w-full p-4 pt-0 bg-gradient-bg border border-primary-pink rounded-xl overflow-hidden flex flex-col items-center shadow-lg text-white">
                 <img
@@ -26,7 +19,7 @@ const projects = limit ? allProjects.slice(0, limit) : allProjects;
                 <section class="w-full text-center flex items-center justify-between">
                     <div class="text-left">
                         <h3 class="text-4xl m-0 uppercase">{name}</h3>
-                        <p class="text-light-purple text-2xl mt-1">{type}</p>
+                        <p class="text-light-purple text-2xl mt-1">{cargo}</p>
                     </div>
                     <div class="rounded-full before:w-full before:transition-all before:duration-700 before:-left-full before:rounded-ful before:hover:scale-150 before:hover:duration-700 z-10 overflow-hidden group">
                         <a href={`/proyecto/${slug}`}>
@@ -43,11 +36,9 @@ const projects = limit ? allProjects.slice(0, limit) : allProjects;
                         </a>
                     </div>
                 </section>
-                <section class="flex items-center gap-11 w-full mt-4 pt-2 border-t border-gray-700">
-                    <p class="text-xl text-white">{tag1}</p>
-                    <span class="text-xl text-white">•</span>
-                    <p class="text-xl text-white">{tag2}</p>
-                </section>
+                <div class="flex items-center gap-11 w-full mt-4 pt-2 border-t border-gray-700">
+                    <p class="text-xl text-white">{message}</p>
+                </div>
             </article>
         );
     })

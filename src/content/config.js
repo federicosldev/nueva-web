@@ -11,4 +11,13 @@ const projects = defineCollection({
     })
 })
 
-export const collections = { projects }
+const reviews = defineCollection({
+    schema: z.object({
+        name: z.string(),
+        cargo: z.string(),
+        img: z.string(),
+        message: z.string(),
+    })
+})
+
+export const collections = { projects, reviews }

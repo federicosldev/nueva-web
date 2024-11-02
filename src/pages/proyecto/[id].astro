@@ -19,7 +19,28 @@ const { Content } = await render(project);
 ---
 
 <Layout title={`${name} - Federico Sanchez`}>
-    <img transition:name={`img-${slug}`} src={`/${img}`} alt={name} />
-    <h1>{name}</h1>
-    <Content />
+    <article class="w-[1600px] mx-auto flex py-10">
+        <aside>
+            <img
+                class="w-[3670px]"
+                transition:name={`img-${slug}`}
+                src={`/${img}`}
+                alt={name}
+            />
+        </aside>
+        <main>
+            <h1 class="text-7xl text-primary-pink">{name}</h1>
+            <div class="flex gap-5">
+                <p class="bg-light-purple rounded-full px-5 inline text-lg">
+                    {type}
+                </p>
+                <p class="bg-light-purple rounded-full px-5 inline text-lg">
+                    {tag1}, {tag2}
+                </p>
+            </div>
+            <div class="text-white prose-invert lg:prose-xl">
+                <Content />
+            </div>
+        </main>
+    </article>
 </Layout>

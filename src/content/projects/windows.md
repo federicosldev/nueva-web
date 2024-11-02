@@ -1,13 +1,11 @@
 ---
 name: Windows 95
 type: Aplicacion Web
-img: proyecto-herbolario.png
+img: proyecto-windows.webp
 tag1: Diseño UX/UI
 tag2: Desarrollo Web
 ---
 En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
-
-Diseño:
 
 Diseñé una interfaz visual que transmitiera una sensación de cercanía y armonía con la naturaleza, utilizando colores verdes, tonos tierra y tipografías suaves que evocan naturalidad y tranquilidad.
 Creé un diseño intuitivo que mejora la experiencia del usuario, optimizando la navegación para facilitar el acceso a las secciones de productos, servicios, y recursos informativos sobre salud natural.
