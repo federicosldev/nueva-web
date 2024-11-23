@@ -35,8 +35,20 @@ const { title } = Astro.props;
 		<Footer />
 	</body><style is:global>
 		@font-face {
-			font-family: 'Stranded';
-			src: url('/fonts/stranded.ttf') format('ttf');
+			font-family: 'Menda';
+			src: url('/fonts/menda-extrabold.ttf') format('ttf');
+			font-weight: bold;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'Monigue';
+			src: url('/fonts/monigue.ttf') format('ttf');
+			font-weight: bold;
+			font-style: normal;
+		}
+		@font-face {
+			font-family: 'Cssglykeregular';
+			src: url('/fonts/cssglykeregular.woff') format('woff');
 			font-weight: bold;
 			font-style: normal;
 		}
@@ -44,7 +56,7 @@ const { title } = Astro.props;
 		h2,
 		h3,
 		h4 {
-			font-family: 'Stranded', sans-serif;
+			font-family: 'Monigue', sans-serif;
 		}
 		p,
 		li,
@@ -66,19 +78,34 @@ const { title } = Astro.props;
 			margin: 0 auto;
 		} */
 		/* CARRUSEL TEXT*/
-		.carrusel-texto {
-			display: inline-block;
-			white-space: nowrap;
-			animation: carrusel 16s linear infinite;
-		}
-
-		@keyframes carrusel {
+		@keyframes scroll {
 			0% {
-				transform: translateX(100%);
+				transform: translateX(0);
 			}
 			100% {
-				transform: translateX(-100%);
+				transform: translateX(-50%);
 			}
+		}
+
+		@keyframes scroll-reverse {
+			0% {
+				transform: translateX(0);
+			}
+			100% {
+				transform: translateX(-50%);
+			}
+		}
+
+		.animate-scroll {
+			animation: scroll 20s linear infinite;
+		}
+
+		.animate-scroll-reverse {
+			animation: scroll-reverse 20s linear infinite;
+		}
+
+		.whitespace-nowrap {
+			white-space: nowrap;
 		}
 	</style>
 </html>

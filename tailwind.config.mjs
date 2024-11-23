@@ -3,6 +3,11 @@ export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
+			fontFamily: {
+				'title': ['Monigue'],
+				'paragrahp': ['Cssglykeregular'],
+				'banner': ['Menda']
+			},
 			colors: {
 				'primary-purple': '#6976DF',
 				'primary-pink': '#EFA6F5',

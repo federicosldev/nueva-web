@@ -29,7 +29,7 @@ const { Content } = await render(project);
             />
         </aside>
         <main>
-            <h1 class="text-7xl text-primary-pink">{name}</h1>
+            <h1 class="text-7xl text-primary-pink uppercase">{name}</h1>
             <div class="flex gap-5">
                 <p class="bg-light-purple rounded-full px-5 inline text-lg">
                     {type}
@@ -38,7 +38,7 @@ const { Content } = await render(project);
                     {tag1}, {tag2}
                 </p>
             </div>
-            <div class="text-white prose-invert lg:prose-xl">
+            <div class="font-paragrahp text-white prose-invert lg:prose-2xl">
                 <Content />
             </div>
         </main>

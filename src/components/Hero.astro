@@ -1,53 +1,68 @@
-<section class="p-6 w-[1600px] mx-auto h-[500px] md:relative">
-    <h1 class="text-8xl md:text-[8rem] leading-6xl text-primary-pink uppercase">
-        Creando <span class="text-primary-purple">experiencias</span>
-        digitales
-    </h1>
+---
+import MarqueeText from './MarqueeText.astro';
 
-    <p
-        class="text-xl md:text-2xl w-[500px] md:absolute md:right-[420px] md:top-[150px] mb-5"
-    >
-        Comprometido en diseñar y desarrollar productos digitales de alta
-        calidad, utilizando las últimas tecnologías y prácticas innovadoras para
-        impulsar tu proyecto.
-    </p>
-    <img
-        class="md:absolute md:right-[820px] md:top-[240px] z-10"
-        src="/public/investigacion-desarrollo-diseno.svg"
-        alt="Icono investigación, desarrollo, diseño"
-    />
+const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
+---
+
+<section class="px-4 sm:px-6 lg:px-12 max-w-[100vw] md:h-[600px]">
+    <div class="max-w-full mx-auto">
+        <h1 class="sr-only">Creando experiencias digitales</h1>
+
+        <div class="space-y-2 sm:space-y-4 md:space-y-6">
+            <div
+                class="flex items-start md:items-center gap-4 sm:gap-8 md:gap-12 md:mt-10"
+            >
+                <span
+                    class="font-title text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[14rem] leading-6 lg:leading-[0.8] text-primary-pink uppercase"
+                >
+                    Creando
+                </span>
+                <img
+                    class="h-12 sm:h-16 md:h-20 lg:h-24 xl:h-32"
+                    src="/public/rectangulo-purple.svg"
+                    alt="Icono investigación, desarrollo, diseño"
+                />
+            </div>
+
+            <div class="flex items-center gap-4 sm:gap-8 md:gap-12">
+                <img
+                    class="h-12 sm:h-16 md:h-20 lg:h-full xl:h-full"
+                    src="/public/rectangulo-purple.svg"
+                    alt="Icono investigación, desarrollo, diseño"
+                />
+                <span
+                    class="font-title text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[14rem] leading-6 lg:leading-[0.8] text-primary-purple uppercase"
+                >
+                    experiencias
+                </span>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row items-start md:items-center gap-4 sm:gap-8 md:gap-12"
+            >
+                <span
+                    class="font-title text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[14rem] leading-12 lg:leading-[0.8] text-primary-pink uppercase"
+                >
+                    digitales
+                </span>
+                <p
+                    class="font-paragraph text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl max-w-[650px] mt-4md:mt-0"
+                >
+                    Comprometido en diseñar y desarrollar productos digitales de
+                    alta calidad, utilizando las últimas tecnologías y prácticas
+                    innovadoras para impulsar tu proyecto.
+                </p>
+            </div>
+        </div>
+    </div>
 </section>
-<div class="h-[400px]">
-    <section
-        class="w-[1200px] md:w-[2500px] rotate-[4deg] mt-12 ml-[-160px] overflow-x-hidden"
-    >
-        <div class="bg-[#242229] py-5 md:py-8 pb-8 md:pb-10 px-9">
-            <p
-                class="text-3xl md:text-5xl font-black text-white carrusel-texto"
-            >
-                <span class="mr-6">DESARROLLO WEB</span>
-                <span class="mr-6">DISEÑO</span>
-                <span class="mr-6">SEO</span>
-                <span class="mr-6">DESARROLLO WEB</span>
-                <span class="mr-6">DISEÑO</span>
-                <span class="mr-6">SEO</span>
-            </p>
-        </div>
+
+<div class="relative w-full mt-8 sm:mt-12 md:mt-16 md:h-[300px]">
+    <section class="transform -rotate-6 w-full">
+        <MarqueeText items={scrollItems} />
     </section>
-    <section
-        class="w-[1200px] md:w-[2500px] rotate-[-10deg] mt-[-200px] ml-[-50px] overflow-x-hidden"
-    >
-        <div class="bg-[#242229] py-5 md:py-8 pb-8 md:pb-10 px-9">
-            <p
-                class="text-3xl md:text-5xl font-black text-white carrusel-texto"
-            >
-                <span class="mr-6">SEO</span>
-                <span class="mr-6">DISEÑO</span>
-                <span class="mr-6">DESARROLLO WEB</span>
-                <span class="mr-6">SEO</span>
-                <span class="mr-6">DISEÑO</span>
-                <span class="mr-6">DESARROLLO WEB</span>
-            </p>
-        </div>
+
+    <section class="transform rotate-6 w-full -mt-12 sm:-mt-16 md:-mt-20">
+        <MarqueeText items={scrollItems} direction="reverse" />
     </section>
 </div>

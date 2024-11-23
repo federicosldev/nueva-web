@@ -1,0 +1,71 @@
+---
+interface Props {
+    direction?: 'normal' | 'reverse';
+    items: string[];
+}
+
+const { direction = 'normal', items } = Astro.props;
+---
+
+<div class="bg-[#242229] py-3 sm:py-4 md:py-6 lg:py-8">
+    <div class={`marquee ${direction === 'reverse' ? 'marquee-reverse' : ''}`}>
+        <div class="track">
+            {
+                [...Array(2)].map(() => (
+                    <div class="content flex items-center">
+                        {items.map(item => (
+                            <>
+                                <span class="font-banner mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-white">
+                                    {item}
+                                </span>
+                                <img
+                                    class="w-4 h-4 sm:w-5 sm:h-5 md:w-10 md:h-10"
+                                    src="/public/star-icon.svg"
+                                    alt="Icono estrella"
+                                />
+                            </>
+                        ))}
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .marquee {
+        position: relative;
+        --offset: 20vw;
+        --move-initial: calc(-25% + var(--offset));
+        --move-final: calc(-50% + var(--offset));
+    }
+
+    .marquee-reverse .track {
+        animation-direction: reverse;
+    }
+
+    .track {
+        width: fit-content;
+        display: flex;
+        position: relative;
+        transform: translate3d(var(--move-initial), 0, 0);
+        animation: marquee 15s linear infinite;
+    }
+
+    .content {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: space-evenly;
+        min-width: 100%;
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translate3d(var(--move-initial), 0, 0);
+        }
+
+        100% {
+            transform: translate3d(var(--move-final), 0, 0);
+        }
+    }
+</style>
