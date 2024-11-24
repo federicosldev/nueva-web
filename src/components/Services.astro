@@ -13,7 +13,7 @@
     </div>
     <article class="flex flex-col gap-7 mt-20 pb-32">
         <div
-            class="w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
+            class="service-item w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
         >
             <h3 class="text-primary-purple text-6xl pl-5">Desarrollo Web</h3>
             <div
@@ -45,7 +45,7 @@
             </div>
         </div>
         <div
-            class="w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
+            class="service-item w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
         >
             <h3 class="text-primary-purple text-6xl pl-5">Diseño UX/UI</h3>
             <div
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div
-            class="w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
+            class="service-item w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
         >
             <h3 class="text-primary-purple text-6xl pl-5">Marketing Digital</h3>
             <div
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div
-            class="w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
+            class="service-item w-full flex justify-between items-center p-10 bg-purple-bg rounded-full border border-primary-purple"
         >
             <h3 class="text-primary-purple text-6xl pl-5">Seo</h3>
             <div
@@ -141,4 +141,82 @@
             </div>
         </div>
     </article>
+    <div class="confetti-container"></div>
 </section>
+<script>
+    import { gsap } from 'gsap';
+
+    let lastConfettiTime = 0;
+    const CONFETTI_COOLDOWN = 100; // Minimum time between confetti bursts in milliseconds
+
+    function createConfetti(container, mouseX, mouseY) {
+        const currentTime = Date.now();
+        if (currentTime - lastConfettiTime < CONFETTI_COOLDOWN) return;
+        lastConfettiTime = currentTime;
+
+        const confettiCount = 2; // Reduced number of confetti elements
+        const confettiImages = ['/public/triangulo.svg', '/public/favicon.svg'];
+
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('img');
+            confetti.src =
+                confettiImages[
+                    Math.floor(Math.random() * confettiImages.length)
+                ];
+            confetti.style.position = 'absolute';
+            confetti.style.left = `${mouseX}px`;
+            confetti.style.top = `${mouseY}px`;
+            confetti.style.width = '50px';
+            confetti.style.height = '50px';
+            confetti.style.pointerEvents = 'none';
+            container.appendChild(confetti);
+
+            gsap.fromTo(
+                confetti,
+                {
+                    x: 0,
+                    y: 0,
+                    rotation: 0,
+                    scale: 0,
+                    opacity: 1,
+                },
+                {
+                    x: (Math.random() - 0.5) * 100, // Reduced spread
+                    y: -Math.random() * 100, // Reduced height
+                    rotation: Math.random() * 360,
+                    scale: Math.random() * 1 + 1,
+                    opacity: 1,
+                    duration: 1 + Math.random() * 0.3,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        container.removeChild(confetti);
+                    },
+                },
+            );
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.querySelector('.confetti-container');
+        const serviceItems = document.querySelectorAll('.service-item');
+
+        serviceItems.forEach(item => {
+            let isHovering = false;
+
+            item.addEventListener('mouseenter', () => {
+                isHovering = true;
+            });
+
+            item.addEventListener('mouseleave', () => {
+                isHovering = false;
+            });
+
+            item.addEventListener('mousemove', e => {
+                if (!isHovering) return;
+                const x = e.clientX;
+                const y = e.clientY + window.scrollY;
+                createConfetti(container, x, y);
+            });
+        });
+    });
+</script>
