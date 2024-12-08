@@ -107,5 +107,25 @@ const { title } = Astro.props;
 		.whitespace-nowrap {
 			white-space: nowrap;
 		}
+
+		/* Estilo para las flechas */
+		.swiper-button-next,
+		.swiper-button-prev {
+			color: #6976df !important;
+			font-size: 2rem;
+			z-index: 10;
+		}
+
+		.swiper-button-next:hover,
+		.swiper-button-prev:hover {
+			color: #efa6f5 !important;
+		}
+
+		.swiper-pagination-bullet {
+			background-color: #6976df !important;
+		}
+		.swiper-pagination-bullet:hover {
+			background-color: #efa6f5 !important;
+		}
 	</style>
 </html>

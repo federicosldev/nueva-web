@@ -1,45 +1,82 @@
 ---
 import { getCollection } from 'astro:content';
-
 const reviews = await getCollection('reviews');
 ---
 
-{
-    reviews.map(review => {
-        const { slug, data } = review;
-        const { name, cargo, img, message } = data;
-        return (
-            <article class="relative w-full p-4 pt-0 bg-gradient-bg border border-primary-pink rounded-xl overflow-hidden flex flex-col items-center shadow-lg text-white">
-                <img
-                    transition:name={`img-${slug}`}
-                    src={`/${img}`}
-                    alt={name}
-                    class="w-[550px] rounded-lg object-cover mb-4"
-                />
-                <section class="w-full text-center flex items-center justify-between">
-                    <div class="text-left">
-                        <h3 class="text-4xl m-0 uppercase">{name}</h3>
-                        <p class="text-light-purple text-2xl mt-1">{cargo}</p>
-                    </div>
-                    <div class="rounded-full before:w-full before:transition-all before:duration-700 before:-left-full before:rounded-ful before:hover:scale-150 before:hover:duration-700 z-10 overflow-hidden group">
-                        <a href={`/proyecto/${slug}`}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 16 19"
-                                class="w-12 h-12 justify-end bg-primary-pink group-hover:rotate-90 group-hover:bg-primary-pink text-primary-pink ease-linear duration-300 rounded-full border border-primary-purple p-2 rotate-45"
-                            >
-                                <path
-                                    class="fill-primary-purple group-hover:fill-primary-purple"
-                                    d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+/>
+
+<div class="swiper w-full max-w-full px-4 lg:px-0">
+    <div class="swiper-wrapper">
+        {
+            reviews.map((review, index) => {
+                const { name, cargo, img, message } = review.data;
+                return (
+                    <div class="swiper-slide" key={index}>
+                        <article class="grid grid-cols-1 sm:grid-cols-2 items-center text-primary-purple min-h-[300px] sm:min-h-[400px]">
+                            <div class="sm:ml-14 flex flex-col justify-between">
+                                <p class="text-base sm:text-2xl text-primary-purple flex-grow">
+                                    {message}
+                                </p>
+                            </div>
+                            <div class="flex flex-col items-center justify-center p-6">
+                                <img
+                                    src={`/${img}`}
+                                    alt={name}
+                                    class="w-40 sm:w-72 rounded-full object-cover mb-4 border-[20px] sm:border-[30px] border-primary-purple"
                                 />
-                            </svg>
-                        </a>
+                                <h3 class="text-4xl sm:text-4xl uppercase">
+                                    {name}
+                                </h3>
+                                <p class="text-primary-purple text-xl sm:text-2xl">
+                                    {cargo}
+                                </p>
+                            </div>
+                        </article>
                     </div>
-                </section>
-                <div class="flex items-center gap-11 w-full mt-4 pt-2 border-t border-gray-700">
-                    <p class="text-xl text-white">{message}</p>
-                </div>
-            </article>
-        );
-    })
-}
+                );
+            })
+        }
+    </div>
+
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-pagination"></div>
+</div>
+
+<!-- Importante: is:inline asegura que el script se ejecute en el orden correcto -->
+<script
+    is:inline
+    src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<script>
+    // Esperar a que el script de Swiper se cargue completamente
+    function initSwiper() {
+        if (typeof Swiper !== 'undefined') {
+            new Swiper('.swiper', {
+                spaceBetween: 50,
+                slidesPerView: 1,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+            });
+        } else {
+            // Si Swiper aún no está definido, intentar de nuevo en 100ms
+            setTimeout(initSwiper, 100);
+        }
+    }
+
+    // Iniciar cuando el DOM esté listo
+    document.addEventListener('astro:page-load', initSwiper);
+</script>

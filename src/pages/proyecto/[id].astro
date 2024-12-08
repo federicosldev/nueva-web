@@ -19,26 +19,61 @@ const { Content } = await render(project);
 ---
 
 <Layout title={`${name} - Federico Sanchez`}>
-    <article class="w-[1600px] mx-auto flex py-10">
-        <aside>
+    <article
+        class="max-w-full px-4 lg:px-10 mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 py-10"
+    >
+        <aside class="flex flex-col items-center lg:items-start">
+            <a href="/proyectos" class="mb-6">
+                <button
+                    class="bg-gray-700 text-center w-full sm:w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
+                    type="button"
+                >
+                    <div
+                        class="bg-primary-pink rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-full sm:group-hover:w-[184px] z-10 duration-500"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 1024 1024"
+                            height="25px"
+                            width="25px"
+                        >
+                            <path
+                                d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+                                fill="#000000"></path>
+                            <path
+                                d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+                                fill="#000000"></path>
+                        </svg>
+                    </div>
+                    <p class="translate-x-2 text-primary-pink">Ver todos</p>
+                </button>
+            </a>
             <img
-                class="w-[3670px]"
+                class="w-full lg:w-[750px] max-h-[300px] lg:max-h-[500px] object-cover rounded-xl"
                 transition:name={`img-${slug}`}
                 src={`/${img}`}
                 alt={name}
             />
         </aside>
-        <main>
-            <h1 class="text-7xl text-primary-pink uppercase">{name}</h1>
-            <div class="flex gap-5">
-                <p class="bg-light-purple rounded-full px-5 inline text-lg">
+        <main class="flex-1">
+            <h1 class="text-4xl lg:text-8xl text-primary-pink uppercase mb-4">
+                {name}
+            </h1>
+            <div class="flex flex-wrap gap-3 mb-6">
+                <p
+                    class="bg-light-purple rounded-full px-4 py-1 text-sm lg:text-lg"
+                >
                     {type}
                 </p>
-                <p class="bg-light-purple rounded-full px-5 inline text-lg">
+                <p
+                    class="bg-light-purple rounded-full px-4 py-1 text-sm lg:text-lg"
+                >
                     {tag1}, {tag2}
                 </p>
             </div>
-            <div class="font-paragrahp text-white prose-invert lg:prose-2xl">
+            <div
+                class="font-paragraph text-white prose prose-sm sm:prose lg:prose-xl prose-invert"
+            >
                 <Content />
             </div>
         </main>
