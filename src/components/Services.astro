@@ -162,61 +162,81 @@
     <div class="confetti-container"></div>
 </section>
 
-<script>
+<!-- <script>
     import { gsap } from 'gsap';
 
-    const confettiImages = ['/triangulo.svg', '/favicon.svg'];
-
     let lastConfettiTime = 0;
-    const CONFETTI_COOLDOWN = 100;
+    const CONFETTI_COOLDOWN = 100; // Minimum time between confetti bursts in milliseconds
 
     function createConfetti(container, mouseX, mouseY) {
-        const confetti = document.createElement('img');
-        confetti.src =
-            confettiImages[Math.floor(Math.random() * confettiImages.length)];
-        confetti.classList.add('confetti');
-        confetti.style.left = `${mouseX}px`;
-        confetti.style.top = `${mouseY}px`;
+        const currentTime = Date.now();
+        if (currentTime - lastConfettiTime < CONFETTI_COOLDOWN) return;
+        lastConfettiTime = currentTime;
 
-        const angle = Math.random() * 360;
-        const speed = Math.random() * 50 + 50;
-        const x = Math.cos((angle * Math.PI) / 180) * speed;
-        const y = Math.sin((angle * Math.PI) / 180) * speed;
+        const confettiCount = 2; // Reduced number of confetti elements
+        const confettiImages = ['/public/triangulo.svg', '/public/favicon.svg'];
 
-        gsap.to(confetti, {
-            duration: 2,
-            x: x,
-            y: y,
-            rotation: angle,
-            scale: 0,
-            opacity: 0,
-            ease: 'power1.out',
-        });
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('img');
+            confetti.src =
+                confettiImages[
+                    Math.floor(Math.random() * confettiImages.length)
+                ];
+            confetti.style.position = 'absolute';
+            confetti.style.left = `${mouseX}px`;
+            confetti.style.top = `${mouseY}px`;
+            confetti.style.width = '50px';
+            confetti.style.height = '50px';
+            confetti.style.pointerEvents = 'none';
+            container.appendChild(confetti);
 
-        container.appendChild(confetti);
-        setTimeout(() => container.removeChild(confetti), 2000);
+            gsap.fromTo(
+                confetti,
+                {
+                    x: 0,
+                    y: 0,
+                    rotation: 0,
+                    scale: 0,
+                    opacity: 1,
+                },
+                {
+                    x: (Math.random() - 0.5) * 100, // Reduced spread
+                    y: -Math.random() * 100, // Reduced height
+                    rotation: Math.random() * 360,
+                    scale: Math.random() * 1 + 1,
+                    opacity: 1,
+                    duration: 1 + Math.random() * 0.3,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        container.removeChild(confetti);
+                    },
+                },
+            );
+        }
     }
 
-    const container = document.querySelector('.confetti-container');
-    const serviceItems = document.querySelectorAll('.service-item');
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.querySelector('.confetti-container');
+        const serviceItems = document.querySelectorAll('.service-item');
 
-    serviceItems.forEach(item => {
-        let isHovering = false;
+        serviceItems.forEach(item => {
+            let isHovering = false;
 
-        item.addEventListener('mouseenter', () => {
-            isHovering = true;
-        });
+            item.addEventListener('mouseenter', () => {
+                isHovering = true;
+            });
 
-        item.addEventListener('mouseleave', () => {
-            isHovering = false;
-        });
+            item.addEventListener('mouseleave', () => {
+                isHovering = false;
+            });
 
-        item.addEventListener('mousemove', e => {
-            if (!isHovering) return;
+            item.addEventListener('mousemove', (e: MouseEvent) => {
+                if (!isHovering) return;
 
-            const x = e.clientX;
-            const y = e.clientY + window.scrollY;
-            createConfetti(container, x, y);
+                const x = e.clientX;
+                const y = e.clientY + window.scrollY;
+                createConfetti(container, x, y);
+            });
         });
     });
-</script>
+</script> -->
