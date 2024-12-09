@@ -3,13 +3,11 @@ import About from '../components/About.astro';
 import Hero from '../components/Hero.astro';
 import Projects from '../components/Projects.astro';
 import Reviews from '../components/Reviews.astro';
-import Services from '../components/Services.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Federico Sánchez - Front-End Developer">
 	<Hero />
-	<Services client:load />
 	<About />
 	<Projects />
 	<Reviews />
