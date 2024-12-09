@@ -1,3 +1,7 @@
+---
+export const prerender = false;
+---
+
 <section class="p-6 max-w-[1600px] mx-auto">
     <div class="flex flex-col gap-8 lg:flex-row">
         <h2 class="text-4xl md:text-6xl lg:text-8xl text-[#EFA6F5] uppercase">
@@ -166,15 +170,15 @@
     import { gsap } from 'gsap';
 
     let lastConfettiTime = 0;
-    const CONFETTI_COOLDOWN = 100; // Minimum time between confetti bursts in milliseconds
+    const CONFETTI_COOLDOWN = 100; // Tiempo mínimo entre ráfagas de confeti
 
     function createConfetti(container, mouseX, mouseY) {
         const currentTime = Date.now();
         if (currentTime - lastConfettiTime < CONFETTI_COOLDOWN) return;
         lastConfettiTime = currentTime;
 
-        const confettiCount = 2; // Reduced number of confetti elements
-        const confettiImages = ['/public/triangulo.svg', '/public/favicon.svg'];
+        const confettiCount = 2; // Número reducido de elementos de confeti
+        const confettiImages = ['/triangulo.svg', '/favicon.svg']; // Rutas corregidas
 
         for (let i = 0; i < confettiCount; i++) {
             const confetti = document.createElement('img');
@@ -200,8 +204,8 @@
                     opacity: 1,
                 },
                 {
-                    x: (Math.random() - 0.5) * 100, // Reduced spread
-                    y: -Math.random() * 100, // Reduced height
+                    x: (Math.random() - 0.5) * 100, // Reducción de la dispersión
+                    y: -Math.random() * 100, // Reducción de la altura
                     rotation: Math.random() * 360,
                     scale: Math.random() * 1 + 1,
                     opacity: 1,
@@ -230,7 +234,8 @@
                 isHovering = false;
             });
 
-            item.addEventListener('mousemove', (e: MouseEvent) => {
+            item.addEventListener('mousemove', e => {
+                // Eliminada la anotación TypeScript
                 if (!isHovering) return;
 
                 const x = e.clientX;
