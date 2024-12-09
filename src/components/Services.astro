@@ -230,8 +230,9 @@
                 isHovering = false;
             });
 
-            item.addEventListener('mousemove', e => {
+            item.addEventListener('mousemove', (e: MouseEvent) => {
                 if (!isHovering) return;
+
                 const x = e.clientX;
                 const y = e.clientY + window.scrollY;
                 createConfetti(container, x, y);
