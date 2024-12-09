@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 const reviews = await getCollection('reviews');
 ---
 
-<link
+<!-- <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
 />
@@ -46,7 +46,7 @@ const reviews = await getCollection('reviews');
     <div class="swiper-pagination"></div>
 </div>
 
-<!-- Importante: is:inline asegura que el script se ejecute en el orden correcto -->
+<!-- Importante: is:inline asegura que el script se ejecute en el orden correcto
 <script
     is:inline
     src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -79,4 +79,4 @@ const reviews = await getCollection('reviews');
 
     // Iniciar cuando el DOM esté listo
     document.addEventListener('astro:page-load', initSwiper);
-</script>
+</script> -->
