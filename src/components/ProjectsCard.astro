@@ -16,7 +16,7 @@ const projects = limit ? allProjects.slice(0, limit) : allProjects;
         const { slug, data } = project;
         const { name, type, img, tag1, tag2 } = data;
         return (
-            <article class="relative w-full p-4 pt-0 bg-gradient-bg border border-primary-pink rounded-xl overflow-hidden flex flex-col items-center shadow-lg text-white">
+            <article class="relative w-full mt-7 p-4 pt-0 bg-gradient-bg border border-primary-pink rounded-xl overflow-hidden flex flex-col items-center shadow-lg text-white">
                 <img
                     transition:name={`img-${slug}`}
                     src={`/${img}`}
@@ -28,16 +28,29 @@ const projects = limit ? allProjects.slice(0, limit) : allProjects;
                         <h3 class="text-4xl m-0 uppercase">{name}</h3>
                         <p class="text-light-purple text-2xl mt-1">{type}</p>
                     </div>
-                    <div class="rounded-full before:w-full before:transition-all before:duration-700 before:-left-full before:rounded-ful before:hover:scale-150 before:hover:duration-700 z-10 overflow-hidden group">
+                    <div class="rounded-full z-10 border border-primary-purple p-4 md:p-3 bg-primary-pink text-primary-pink mt-4 md:mt-0">
                         <a href={`/proyecto/${slug}`}>
                             <svg
+                                width="25"
+                                height="25"
+                                viewBox="0 0 45 45"
+                                fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 16 19"
-                                class="w-12 h-12 justify-end bg-primary-pink group-hover:rotate-90 group-hover:bg-primary-pink text-primary-pink ease-linear duration-300 rounded-full border border-primary-purple p-2 rotate-45"
+                                class="hover:rotate-45 text-primary-pink ease-linear duration-300"
                             >
                                 <path
-                                    class="fill-primary-purple group-hover:fill-primary-purple"
-                                    d="M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z"
+                                    d="M44 1L0.999996 44"
+                                    stroke="#6976DF"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M44 39.7L44 1L5.3 0.999998"
+                                    stroke="#6976DF"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
                                 />
                             </svg>
                         </a>

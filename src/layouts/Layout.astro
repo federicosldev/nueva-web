@@ -17,6 +17,12 @@ const { title } = Astro.props;
 		<meta name="description" content="Astro description" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Darker+Grotesque&display=swap"
+			rel="stylesheet"
+		/>
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<ClientRouter />
@@ -57,7 +63,7 @@ const { title } = Astro.props;
 		li,
 		a,
 		button {
-			font-family: 'Cssglykeregular', sans-serif;
+			font-family: 'Darker Grotesque', sans-serif;
 			font-optical-sizing: auto;
 			font-weight: <weight>;
 			font-style: normal;
