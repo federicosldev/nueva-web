@@ -16,7 +16,7 @@ export default {
 				'gradient': '#F5C6CB',
 			  },
 			backgroundImage: {
-				'lightpurple-pattern': "url('/public/fondo-lila.svg')",
+				'lightpurple-pattern': "url('/fondo-lila.svg')",
 				'gradient-bg': 'linear-gradient(180deg, rgba(239,166,245,0.202) 0%, rgba(19,18,23,0.367) 50%)',
 			  },
 			backgroundColor: {
