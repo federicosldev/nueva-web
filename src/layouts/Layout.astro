@@ -8,18 +8,6 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const mendaFont = await getImage({
-	src: '/fonts/menda-extrabold.ttf',
-	format: 'truetype',
-});
-const monigueFont = await getImage({
-	src: '/fonts/monigue.ttf',
-	format: 'truetype',
-});
-const cssglykeFont = await getImage({
-	src: '/fonts/cssglykeregular.woff',
-	format: 'woff',
-});
 ---
 
 <!doctype html>
@@ -35,27 +23,6 @@ const cssglykeFont = await getImage({
 		<link
 			href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&family=Modak&display=swap"
 			rel="stylesheet"
-		/>
-		<link
-			rel="preload"
-			href={mendaFont.src}
-			as="font"
-			type="font/ttf"
-			crossorigin
-		/>
-		<link
-			rel="preload"
-			href={monigueFont.src}
-			as="font"
-			type="font/ttf"
-			crossorigin
-		/>
-		<link
-			rel="preload"
-			href={cssglykeFont.src}
-			as="font"
-			type="font/woff"
-			crossorigin
 		/>
 		<title>{title}</title>
 		<ClientRouter />
