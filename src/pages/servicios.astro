@@ -1,5 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import HeroServices from '../components/HeroServices.astro';
+import ServicesCard from '../components/ServicesCard.astro';
+import MarqueeTitle from '../components/MarqueeTitle.astro';
+import Reviews from '../components/Reviews.astro';
 ---
 
-<Layout title="Federico Sánchez - Servicios" />
+<Layout title="Federico Sánchez - Front-End Developer">
+    <HeroServices />
+    <section
+        class="grid grid-cols-1 md:grid-cols-2 gap-11 max-w-[1600px] px-4 mx-auto mb-16"
+    >
+        <ServicesCard
+            title="Diseño UX/UI"
+            description="Explora los servicios digitales con los que te puedo ayudar a impulsar tu negocio. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras."
+        />
+        <ServicesCard
+            title="Desarrollo Web"
+            description="Explora los servicios digitales con los que te puedo ayudar a impulsar tu negocio. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras."
+        />
+    </section>
+    <div class="md:col-span-2">
+        <MarqueeTitle />
+    </div>
+    <section
+        class="grid grid-cols-1 md:grid-cols-2 gap-11 max-w-[1600px] px-4 mx-auto mb-40"
+    >
+        <ServicesCard
+            title="Marketing Digital"
+            description="Explora los servicios digitales con los que te puedo ayudar a impulsar tu negocio. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras."
+        />
+        <ServicesCard
+            title="SEO"
+            description="Explora los servicios digitales con los que te puedo ayudar a impulsar tu negocio. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras. Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras.Desde diseño web cautivador hasta desarrollo de aplicaciones web innovadoras."
+        />
+    </section>
+    <Reviews />
+</Layout>

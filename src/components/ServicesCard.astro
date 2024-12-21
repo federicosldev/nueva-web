@@ -1,0 +1,27 @@
+---
+const { title, description } = Astro.props;
+---
+
+<article
+    class="relative w-full mt-7 py-12 px-6 bg-gradient-bg border border-primary-pink rounded-xl overflow-hidden flex flex-col items-center shadow-lg text-white"
+>
+    <section class="w-full text-center flex items-center justify-between">
+        <div class="text-left">
+            <h3 class="text-5xl md:text-4xl lg:text-6xl m-0 uppercase">
+                {title}
+            </h3>
+            <p class="text-light-purple text-xl mt-1">
+                {description}
+            </p>
+        </div>
+        <!-- <div>
+            <a href="#">
+                <img
+                    class="w-full float-right"
+                    src="/public/letgo-boton.svg"
+                    alt="Let's go"
+                />
+            </a>
+        </div> -->
+    </section>
+</article>

@@ -1,0 +1,55 @@
+<div class="marquee">
+    <div>
+        <span>ESTRATEGIA</span>
+        <span> +</span>
+        <span>CREATIVIDAD</span>
+        <span> +</span>
+        <span>ESTRATEGIA</span>
+        <span> +</span>
+        <span>CREATIVIDAD</span>
+        <span>+</span>
+        <span> ESTRATEGIA +</span>
+    </div>
+</div>
+<style>
+    .marquee {
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        width: 100%;
+        height: 200px; /* Ajusta la altura según sea necesario */
+        align-items: center;
+    }
+
+    .marquee > div {
+        display: flex;
+        animation: marquee 60s linear infinite; /* Controla la duración de la animación */
+    }
+
+    .marquee span {
+        padding: 0 2rem;
+        font-size: 12rem;
+        line-height: 40px;
+        color: transparent;
+        -webkit-text-stroke: 2px white;
+        font-family: 'Monigue', sans-serif;
+    }
+
+    /* Keyframes para la animación */
+    @keyframes marquee {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const marquee = document.querySelector('.marquee > div');
+        const clone = marquee.innerHTML;
+        marquee.innerHTML += clone;
+    });
+</script>
