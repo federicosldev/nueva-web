@@ -1,0 +1,106 @@
+<section
+    class="p-6 max-w-[1600px] mx-auto pb-24 gap-14 grid grid-cols-1 md:grid-cols-2"
+>
+    <div class="relative">
+        <h2
+            class="text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[12rem] text-[#EFA6F5] uppercase"
+        >
+            Te ayudo a <span class="text-[#6976DF]">crecer...</span>
+        </h2>
+        <p class="text-xl md:text-lg lg:text-3xl">
+            Con servicios digitales diseñados para impulsar tu negocio. Desde un
+            diseño web cautivador hasta el desarrollo de aplicaciones
+            innovadoras, estrategias de SEO efectivas y mucho más, estoy aquí
+            para llevar tu visión al siguiente nivel.
+        </p>
+    </div>
+    <div class="about-item">
+        <img
+            src="/marketing-digital-federico-sanchez.webp"
+            alt="Foto de Federico"
+        />
+        <div class="confetti-container"></div>
+    </div>
+</section>
+<script>
+    import { gsap } from 'gsap';
+
+    let lastConfettiTime = 0;
+    const CONFETTI_COOLDOWN = 100; // Minimum time between confetti bursts in milliseconds
+
+    function createConfetti(container, mouseX, mouseY) {
+        const currentTime = Date.now();
+        if (currentTime - lastConfettiTime < CONFETTI_COOLDOWN) return;
+        lastConfettiTime = currentTime;
+
+        const confettiCount = 2; // Reduced number of confetti elements
+        const confettiImages = [
+            '/triangulo.svg',
+            '/favicon.svg',
+            '/letgo-boton.svg',
+        ];
+
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('img');
+            confetti.src =
+                confettiImages[
+                    Math.floor(Math.random() * confettiImages.length)
+                ];
+            confetti.style.position = 'absolute';
+            confetti.style.left = `${mouseX}px`;
+            confetti.style.top = `${mouseY}px`;
+            confetti.style.width = '50px';
+            confetti.style.height = '50px';
+            confetti.style.pointerEvents = 'none';
+            container.appendChild(confetti);
+
+            gsap.fromTo(
+                confetti,
+                {
+                    x: 0,
+                    y: 0,
+                    rotation: 0,
+                    scale: 0,
+                    opacity: 1,
+                },
+                {
+                    x: (Math.random() - 0.5) * 100, // Reduced spread
+                    y: -Math.random() * 100, // Reduced height
+                    rotation: Math.random() * 360,
+                    scale: Math.random() * 1 + 1,
+                    opacity: 1,
+                    duration: 1 + Math.random() * 0.3,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                        container.removeChild(confetti);
+                    },
+                },
+            );
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.querySelector('.confetti-container');
+        const serviceItems = document.querySelectorAll('.about-item');
+
+        serviceItems.forEach(item => {
+            let isHovering = false;
+
+            item.addEventListener('mouseenter', () => {
+                isHovering = true;
+            });
+
+            item.addEventListener('mouseleave', () => {
+                isHovering = false;
+            });
+
+            item.addEventListener('mousemove', (e: MouseEvent) => {
+                if (!isHovering) return;
+
+                const x = e.clientX;
+                const y = e.clientY + window.scrollY;
+                createConfetti(container, x, y);
+            });
+        });
+    });
+</script>
