@@ -214,7 +214,7 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    function initConfetti() {
         const container = document.querySelector('.confetti-container');
         const serviceItems = document.querySelectorAll('.service-item');
 
@@ -229,7 +229,7 @@
                 isHovering = false;
             });
 
-            item.addEventListener('mousemove', (e: MouseEvent) => {
+            item.addEventListener('mousemove', e => {
                 if (!isHovering) return;
 
                 const x = e.clientX;
@@ -237,5 +237,8 @@
                 createConfetti(container, x, y);
             });
         });
-    });
+    }
+
+    document.addEventListener('astro:page-load', initConfetti);
+    document.addEventListener('DOMContentLoaded', initConfetti);
 </script>
