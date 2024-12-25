@@ -131,4 +131,5 @@
     menuLinks.forEach(link => {
         link.addEventListener('click', toggleMenu);
     });
+    document.addEventListener('astro:page-load', toggleMenu);
 </script>
