@@ -114,22 +114,23 @@
     >
 </header>
 
-<script>
-    const menuToggle = document.getElementById('menuToggle');
-    const closeMenu = document.getElementById('closeMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
+<script is:inline>
+    document.addEventListener('astro:page-load', () => {
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
 
-    function toggleMenu() {
-        mobileMenu.classList.toggle('-translate-x-full');
-    }
+        function toggleMenu() {
+            mobileMenu.classList.toggle('-translate-x-full');
+        }
 
-    menuToggle.addEventListener('click', toggleMenu);
-    closeMenu.addEventListener('click', toggleMenu);
+        menuToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
 
-    // Cerrar el menú al hacer clic en un enlace
-    const menuLinks = mobileMenu.querySelectorAll('a');
-    menuLinks.forEach(link => {
-        link.addEventListener('click', toggleMenu);
+        // Cerrar el menú al hacer clic en un enlace
+        const menuLinks = mobileMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
     });
-    document.addEventListener('astro:page-load', toggleMenu);
 </script>
