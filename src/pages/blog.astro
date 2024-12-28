@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PostsCard from '../components/PostsCard.astro';
+import FeaturedPost from '../components/FeaturedPost.astro';
+---
+
+<Layout title="Federico Sánchez - Front-End Developer">
+    <section
+        class="flex flex-col md:flex-row max-w-[1600px] mx-auto mb-20 md:mb-12 md:mt-12 px-4 md:px-0 gap-6"
+    >
+        <section class="flex-1">
+            <FeaturedPost />
+        </section>
+        <aside class="w-full md:w-[300px]">
+            <div class="bg-lightgray p-6 rounded-xl flex flex-col gap-2">
+                <h3 class="text-white text-4xl">
+                    ¡Suscríbete a la newsletter!
+                </h3>
+                <p class="text-lg mb-2">
+                    Recibirás artículos de calidad sobre frontend y todas las
+                    novedades en las que vaya trabajando. ¡Nada de spam 🙅‍♂️!
+                </p>
+                <form action="" class="text-gray-400">
+                    <input
+                        type="text"
+                        placeholder="Tu email"
+                        class="w-full p-2 rounded-md mb-1 text-gray-800"
+                    />
+                    <input type="checkbox" class="mr-2" />He leído y acepto la
+                    política de privacidad
+                    <button
+                        class="text-white bg-primary-purple w-full p-2 rounded-md mt-2 text-xl hover:bg-primary-pink transition"
+                        >Suscribirme</button
+                    >
+                </form>
+            </div>
+        </aside>
+    </section>
+    <main
+        class="flex flex-col md:flex-row max-w-[1600px] mx-auto mb-20 md:mb-40 px-4 md:px-0 gap-6 mt-12"
+    >
+        <section class="flex-1">
+            <h1 class="sr-only">Mi Blog de Marketing Digital y Diseño Web</h1>
+            <h2 class="text-white text-4xl">Todos los posts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <PostsCard />
+            </div>
+        </section>
+
+        <aside class="w-full md:w-[300px]">
+            <h2 class="text-white text-4xl mb-7">Recomendado</h2>
+            <div class="bg-lightgray p-6 rounded-xl">
+                <img
+                    src="/prueba-blog.svg"
+                    alt="pruebablog"
+                    class="w-full rounded-lg"
+                />
+                <div class="flex justify-between items-center">
+                    <h3 class="text-white text-2xl">Federico Sánchez</h3>
+                    <a
+                        href="https://www.linkedin.com/in/federico-sanchez-lison/"
+                        target="_blank"
+                        class="text-primary-pink border transition hover:bg-primary-pink hover:text-primary-purple border-primary-pink py-2 px-3 rounded-lg"
+                        >Seguir</a
+                    >
+                </div>
+                <p class="text-lg">
+                    Recibirás artículos de calidad sobre frontend y todas las
+                    novedades en las que vaya trabajando. ¡Nada de spam 🙅‍♂️!
+                </p>
+            </div>
+        </aside>
+    </main>
+    <div class="bg-lightpurple-pattern h-32 mb-12"></div>
+</Layout>

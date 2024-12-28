@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+
+const blogEntries = await getCollection('blog');
+---
+
+{
+    blogEntries.map(entry => {
+        const { slug, data } = entry;
+        const { title, img, extracto } = data;
+        return (
+            <article class="relative w-full mt-7 p-6 bg-lightgray rounded-xl overflow-hidden flex flex-col text-white">
+                <img
+                    transition:name={`img-${slug}`}
+                    src={`/${img}`}
+                    alt={title}
+                    class="w-[550px] rounded-lg object-cover mb-4"
+                />
+                <section class="w-full text-center flex items-end justify-between">
+                    <div class="text-left">
+                        <h3 class="text-4xl m-0 uppercase">{title}</h3>
+                        <p class="text-light-purple text-2xl mt-1">
+                            {extracto}
+                        </p>
+                    </div>
+                    <div class="rounded-full z-10 border border-primary-purple p-4 md:p-3 hover:bg-primary-pink text-primary-pink mt-4 md:mt-0">
+                        <a href={`/blog/${slug}`}>
+                            <svg
+                                width="25"
+                                height="25"
+                                viewBox="0 0 45 45"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="hover:rotate-45 text-primary-pink ease-linear duration-300"
+                            >
+                                <path
+                                    d="M44 1L0.999996 44"
+                                    stroke="#6976DF"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M44 39.7L44 1L5.3 0.999998"
+                                    stroke="#6976DF"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                </section>
+            </article>
+        );
+    })
+}

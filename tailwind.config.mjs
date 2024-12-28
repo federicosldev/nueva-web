@@ -15,6 +15,7 @@ export default {
 				'dark-purple': '#5A65DC',
 				'gradient': '#F5C6CB',
 				'dark': '#131217',
+				'lightgray':'#242229',
 			  },
 			backgroundImage: {
 				'lightpurple-pattern': "url('/fondo-lila.svg')",

@@ -19,4 +19,12 @@ const reviews = defineCollection({
     })
 })
 
-export const collections = { projects, reviews }
+const blog = defineCollection({
+    schema: z.object({
+        title: z.string(),
+        img: z.string(),
+        extracto: z.string(),
+    })
+})
+
+export const collections = { projects, reviews, blog }
