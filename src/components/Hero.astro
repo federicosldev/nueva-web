@@ -108,37 +108,48 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
         let isHovering = false;
         let scrollTimeout;
 
+        const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+
         function updateFloatingScrollPosition(e) {
-            if (isHovering) {
+            if (isHovering && isDesktop) {
                 floatingScroll.style.left = `${e.clientX}px`;
                 floatingScroll.style.top = `${e.clientY}px`;
             }
         }
 
         function showFloatingScroll() {
-            isHovering = true;
-            floatingScroll.classList.remove('hidden');
+            if (isDesktop) {
+                isHovering = true;
+                floatingScroll.classList.remove('hidden');
+            }
         }
 
         function hideFloatingScroll() {
-            isHovering = false;
-            floatingScroll.classList.add('hidden');
+            if (isDesktop) {
+                isHovering = false;
+                floatingScroll.classList.add('hidden');
+            }
         }
 
-        hoverImages.forEach(img => {
-            img.addEventListener('mouseenter', showFloatingScroll);
-            img.addEventListener('mouseleave', hideFloatingScroll);
-        });
+        if (isDesktop) {
+            hoverImages.forEach(img => {
+                img.addEventListener('mouseenter', showFloatingScroll);
+                img.addEventListener('mouseleave', hideFloatingScroll);
+            });
 
-        document.addEventListener('mousemove', updateFloatingScrollPosition);
+            document.addEventListener(
+                'mousemove',
+                updateFloatingScrollPosition,
+            );
 
-        document.addEventListener('scroll', () => {
-            if (isHovering) {
-                showFloatingScroll();
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(hideFloatingScroll, 1000);
-            }
-        });
+            document.addEventListener('scroll', () => {
+                if (isHovering) {
+                    showFloatingScroll();
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(hideFloatingScroll, 1000);
+                }
+            });
+        }
     }
 
     document.addEventListener('DOMContentLoaded', initScrollEffect);
