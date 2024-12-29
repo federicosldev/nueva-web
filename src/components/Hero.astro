@@ -21,14 +21,47 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
                     class="h-10 sm:h-16 md:h-20 lg:h-24 xl:h-32 mt-[-14px] md:mt-0 mb-[16px] md:mb-0"
                     src="/hero-smile.svg"
                     alt="Icono investigación, desarrollo, diseño"
+                    id="hover-effect"
                 />
             </div>
-
+            <div
+                id="floating-scroll"
+                class="hidden fixed pointer-events-none z-50"
+            >
+                <div
+                    class="relative w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden"
+                >
+                    <div
+                        class="absolute w-full h-full animate-spin-slow flex items-center justify-center"
+                    >
+                        <img
+                            src="/placeholder.svg?height=60&width=60&text=SCROLL"
+                            alt="Scroll"
+                            class="rotating-image absolute w-16 h-16 object-contain"
+                        />
+                    </div>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-8 w-8 text-gray-800 z-10"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
             <div class="flex items-center gap-4 sm:gap-8 md:gap-12">
                 <img
                     class="h-10 sm:h-16 md:h-20 lg:h-full xl:h-40"
                     src="/good-vibes.svg"
                     alt="Icono investigación, desarrollo, diseño"
+                    id="hover-effect"
                 />
                 <span
                     class="font-title text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[14rem] leading-6 lg:leading-[0.8] text-primary-purple uppercase"
@@ -66,3 +99,48 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
         <MarqueeText items={scrollItems} direction="reverse" />
     </section>
 </div>
+
+<script>
+    function initScrollEffect() {
+        const floatingScroll = document.getElementById('floating-scroll');
+        const hoverImages = document.querySelectorAll('img#hover-effect');
+
+        let isHovering = false;
+        let scrollTimeout;
+
+        function updateFloatingScrollPosition(e) {
+            if (isHovering) {
+                floatingScroll.style.left = `${e.clientX}px`;
+                floatingScroll.style.top = `${e.clientY}px`;
+            }
+        }
+
+        function showFloatingScroll() {
+            isHovering = true;
+            floatingScroll.classList.remove('hidden');
+        }
+
+        function hideFloatingScroll() {
+            isHovering = false;
+            floatingScroll.classList.add('hidden');
+        }
+
+        hoverImages.forEach(img => {
+            img.addEventListener('mouseenter', showFloatingScroll);
+            img.addEventListener('mouseleave', hideFloatingScroll);
+        });
+
+        document.addEventListener('mousemove', updateFloatingScrollPosition);
+
+        document.addEventListener('scroll', () => {
+            if (isHovering) {
+                showFloatingScroll();
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(hideFloatingScroll, 1000);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initScrollEffect);
+    document.addEventListener('astro:page-load', initScrollEffect);
+</script>
