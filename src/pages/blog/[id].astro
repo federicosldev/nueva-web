@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import PostsCard from '../../components/PostsCard.astro';
 
 export async function getStaticPaths() {
     const blogEntries = await getCollection('blog');
@@ -20,50 +21,73 @@ const { Content } = await render(entry);
 
 <Layout title={`${title} - Federico Sanchez`}>
     <article
-        class="max-w-full px-4 lg:px-10 mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 py-10"
+        class="flex flex-col md:flex-row max-w-[1600px] mx-auto mb-20 md:mb-40 px-4 md:px-0 gap-6 mt-12"
     >
-        <aside class="flex flex-col items-center lg:items-start">
-            <a href="/proyectos" class="mb-6">
-                <button
-                    class="bg-gray-700 text-center w-full sm:w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
-                    type="button"
-                >
-                    <div
-                        class="bg-primary-pink rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-full sm:group-hover:w-[184px] z-10 duration-500"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 1024 1024"
-                            height="25px"
-                            width="25px"
-                        >
-                            <path
-                                d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-                                fill="#000000"></path>
-                            <path
-                                d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
-                                fill="#000000"></path>
-                        </svg>
-                    </div>
-                    <p class="translate-x-2 text-primary-pink">Ver todos</p>
-                </button>
-            </a>
+        <section
+            class="flex-1 bg-lightpurple-pattern px-6 py-12 md:px-28 md:py-20 rounded-xl flex flex-col items-center gap-4"
+        >
             <img
-                class="w-full lg:w-[750px] max-h-[300px] lg:max-h-[500px] object-cover rounded-xl"
+                class="w-full lg:w-[750px] max-h-[300px] lg:max-h-[500px] object-cover rounded-xl mb-7"
                 transition:name={`img-${slug}`}
                 src={`/${img}`}
                 alt={title}
             />
-        </aside>
-        <main class="flex-1">
-            <h1 class="text-4xl lg:text-8xl text-primary-pink uppercase mb-4">
+            <h1 class="text-4xl lg:text-8xl text-primary-purple uppercase mb-4">
                 {title}
             </h1>
             <div
-                class="font-paragraph text-white prose prose-sm sm:prose lg:prose-xl prose-invert"
+                class="font-paragraph text-white prose-lg sm:prose lg:prose-2xl prose-invert"
             >
                 <Content />
             </div>
-        </main>
+        </section>
+
+        <aside class="w-full md:w-[380px]">
+            <h2 class="text-white text-4xl mb-7">Recomendado</h2>
+            <div class="bg-lightgray p-6 rounded-xl">
+                <img
+                    src="/prueba-blog.svg"
+                    alt="pruebablog"
+                    class="w-full rounded-lg"
+                />
+                <div class="flex justify-between items-center">
+                    <h3 class="text-white text-2xl">Federico Sánchez</h3>
+                    <a
+                        href="https://www.linkedin.com/in/federico-sanchez-lison/"
+                        target="_blank"
+                        class="text-primary-pink border transition hover:bg-primary-pink hover:text-primary-purple border-primary-pink py-2 px-3 rounded-lg"
+                        >Seguir</a
+                    >
+                </div>
+                <p class="text-lg">
+                    Recibirás artículos de calidad sobre frontend y todas las
+                    novedades en las que vaya trabajando. ¡Nada de spam 🙅‍♂️!
+                </p>
+            </div>
+            <div class="bg-lightgray p-6 rounded-xl flex flex-col gap-2 mt-5">
+                <h3 class="text-white text-4xl text-center">
+                    ¡Suscríbete a la newsletter!
+                </h3>
+                <p class="text-lg mb-2">
+                    Recibirás artículos de calidad sobre frontend y todas las
+                    novedades en las que vaya trabajando. ¡Nada de spam 🙅‍♂️!
+                </p>
+                <form action="" class="text-gray-400">
+                    <input
+                        type="text"
+                        placeholder="Tu email"
+                        class="w-full p-2 rounded-md mb-1 text-gray-800"
+                    />
+                    <input type="checkbox" class="mr-2" /><small
+                        >He leído y acepto la política de privacidad</small
+                    >
+                    <button
+                        class="text-white bg-primary-purple w-full p-2 rounded-md mt-2 text-xl hover:bg-primary-pink transition"
+                        >Suscribirme</button
+                    >
+                </form>
+            </div>
+            <PostsCard limit={2} />
+        </aside>
     </article>
 </Layout>

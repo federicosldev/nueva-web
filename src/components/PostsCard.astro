@@ -1,11 +1,18 @@
 ---
 import { getCollection } from 'astro:content';
 
+interface Props {
+    limit?: number;
+}
+
+const { limit } = Astro.props;
+
 const blogEntries = await getCollection('blog');
+const blog = limit ? blogEntries.slice(0, limit) : blogEntries;
 ---
 
 {
-    blogEntries.map(entry => {
+    blog.map(entry => {
         const { slug, data } = entry;
         const { title, img, extracto } = data;
         return (
