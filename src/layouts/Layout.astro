@@ -2,7 +2,6 @@
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { initLenis } from '../utils/lenis';
 
 interface Props {
 	title: string;
@@ -178,8 +177,4 @@ const { title } = Astro.props;
 			background-color: #131217;
 		}
 	</style>
-	<script>
-		import { initLenis } from '../utils/lenis';
-		initLenis();
-	</script>
 </html>
