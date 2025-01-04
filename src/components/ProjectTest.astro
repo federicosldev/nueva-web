@@ -1,0 +1,121 @@
+---
+interface Project {
+    title: string;
+    image: string;
+}
+
+interface Props {
+    projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<div class="project-gallery mb-56 pt-40">
+    <!-- Content -->
+    <div class="demo-wrapper overflow-x-hidden">
+        <section class="demo-text">
+            <div class="wrapper text">
+                MIS <span class="ml-5 text-primary-pink">PROYECTOS</span>
+            </div>
+        </section>
+
+        {
+            projects.map((_, index) => (
+                <section class="demo-gallery">
+                    <ul class="wrapper">
+                        {projects
+                            .slice(index * 2, index * 2 + 3)
+                            .map(project => (
+                                <li class="flex-shrink-0 w-[clamp(500px,60vw,800px)] pr-4 mb-4">
+                                    <img
+                                        src={project.image}
+                                        alt={project.title}
+                                        width="1240"
+                                        height="874"
+                                        class="w-full h-auto bg-gray-100"
+                                    />
+                                </li>
+                            ))}
+                    </ul>
+                </section>
+            ))
+        }
+
+        <section class="demo-text">
+            <div class="wrapper text">DESTACADOS</div>
+        </section>
+
+        <div class="col-span-1 md:col-span-2 flex justify-center w-full">
+            <a
+                href="/proyectos"
+                class="w-full md:w-80 text-center p-4 md:p-5 text-2xl md:text-2xl lg:text-4xl font-medium text-primary-purple border border-white rounded-full hover:bg-primary-pink hover:border-primary-purple"
+            >
+                VER TODOS
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .demo-text .text {
+        font-size: clamp(8rem, 15vw, 16rem);
+        line-height: 1;
+        font-weight: 900;
+        font-family: 'Monigue', sans-serif;
+        color: #6976df;
+    }
+
+    .wrapper {
+        display: flex;
+    }
+</style>
+
+<script>
+    import gsap from 'gsap';
+    import ScrollTrigger from 'gsap/ScrollTrigger';
+    import imagesLoaded from 'imagesloaded';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const initScrollEffect = () => {
+        // Selecciona todas las imágenes
+        const images = gsap.utils.toArray('img');
+
+        const showDemo = () => {
+            // Configura el body para permitir el desplazamiento y ajusta la vista
+            document.body.style.overflow = 'auto';
+            document.scrollingElement.scrollTo(0, 0);
+
+            // Animación para las secciones
+            gsap.utils.toArray('section').forEach((section, index) => {
+                const w = section.querySelector('.wrapper');
+                if (!w) return;
+
+                const [x, xEnd] =
+                    index % 2
+                        ? ['100%', (w.scrollWidth - section.offsetWidth) * -1]
+                        : [w.scrollWidth * -1, 0];
+
+                gsap.fromTo(
+                    w,
+                    { x }, // Movimiento inicial
+                    {
+                        x: xEnd, // Movimiento final
+                        scrollTrigger: {
+                            trigger: section,
+                            scrub: 0.5, // Suaviza el desplazamiento
+                        },
+                    },
+                );
+            });
+        };
+
+        // Espera a que las imágenes se hayan cargado antes de mostrar la animación
+        imagesLoaded(images).on('always', showDemo);
+    };
+
+    // Escucha los eventos de carga de página
+    document.addEventListener('DOMContentLoaded', initScrollEffect);
+    document.addEventListener('astro:page-load', initScrollEffect);
+</script>

@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { initLenis } from '../utils/lenis';
 
 interface Props {
 	title: string;
@@ -152,5 +153,33 @@ const { title } = Astro.props;
 		#floating-scroll .rotating-image {
 			transform-origin: center;
 		}
+		.wrapper {
+			overflow: hidden;
+		}
+		.demo-gallery ul {
+			display: flex;
+			width: fit-content;
+		}
+		.demo-gallery li {
+			flex-shrink: 0;
+		}
+		/* Cambiar el color de la barra de desplazamiento */
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		/* Cambiar el color del "pulgar" (la parte que se mueve) */
+		::-webkit-scrollbar-thumb {
+			background-color: #6976df;
+		}
+
+		/* Cambiar el color de la pista de la barra de desplazamiento */
+		::-webkit-scrollbar-track {
+			background-color: #131217;
+		}
 	</style>
+	<script>
+		import { initLenis } from '../utils/lenis';
+		initLenis();
+	</script>
 </html>

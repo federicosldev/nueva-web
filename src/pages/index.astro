@@ -5,12 +5,33 @@ import Projects from '../components/Projects.astro';
 import Services from '../components/Services.astro';
 import Reviews from '../components/Reviews.astro';
 import Layout from '../layouts/Layout.astro';
+import ProjectTest from '../components/ProjectTest.astro';
+
+const projects = [
+	{
+		title: 'Project 1',
+		image: '/path/to/your/project1-image.jpg',
+	},
+	{
+		title: 'Project 2',
+		image: '/path/to/your/project2-image.jpg',
+	},
+	{
+		title: 'Project 3',
+		image: '/path/to/your/project3-image.jpg',
+	},
+	{
+		title: 'Project 4',
+		image: '/path/to/your/project4-image.jpg',
+	},
+];
 ---
 
 <Layout title="Federico Sánchez - Front-End Developer">
 	<Hero />
 	<Services />
 	<About />
-	<Projects />
+	<ProjectTest projects={projects} />
+	<!-- <Projects /> -->
 	<Reviews />
 </Layout>
