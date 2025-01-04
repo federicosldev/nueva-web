@@ -11,7 +11,7 @@ interface Props {
 const { projects } = Astro.props;
 ---
 
-<div class="project-gallery mb-56 pt-40">
+<div class="project-gallery mb-20 pt-20 md:mb-56 md:pt-40">
     <!-- Content -->
     <div class="demo-wrapper overflow-x-hidden">
         <section class="demo-text">
@@ -71,7 +71,7 @@ const { projects } = Astro.props;
     }
     @media (max-width: 640px) {
         .demo-text .text {
-            font-size: clamp(3rem, 10vw, 8rem);
+            font-size: clamp(3.5rem, 10vw, 8rem);
         }
     }
 </style>
