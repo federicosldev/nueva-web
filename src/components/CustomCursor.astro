@@ -38,6 +38,12 @@
     select:hover ~ #custom-cursor {
         transform: translate(-50%, -50%) scale(1.5);
     }
+    /* Desactivar el cursor personalizado en dispositivos táctiles */
+    @media (pointer: coarse) {
+        #custom-cursor {
+            display: none;
+        }
+    }
 </style>
 
 <script>
