@@ -3,9 +3,5 @@
     "outputDirectory": "dist",
     "framework": "astro",
     "installCommand": "npm install",
-    "functions": {
-        "api/*": {
-            "runtime": "nodejs18.x"
-        }
-    }
+    "runtime": "nodejs18.x"
 }
