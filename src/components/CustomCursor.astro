@@ -1,0 +1,77 @@
+---
+// src/components/CustomCursor.astro
+---
+
+<div id="custom-cursor"></div>
+
+<style is:global>
+    body,
+    a,
+    button,
+    input,
+    textarea,
+    select {
+        cursor: none !important;
+    }
+
+    #custom-cursor {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        width: 30px;
+        height: 30px;
+        background-image: url('/custom-cursor.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        transform: translate(-50%, -50%);
+        transition:
+            opacity 0.3s ease,
+            transform 0.1s ease;
+        opacity: 0;
+    }
+
+    /* Estilos para elementos interactivos */
+    a:hover ~ #custom-cursor,
+    button:hover ~ #custom-cursor,
+    input:hover ~ #custom-cursor,
+    textarea:hover ~ #custom-cursor,
+    select:hover ~ #custom-cursor {
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+</style>
+
+<script>
+    function initCustomCursor() {
+        const cursor = document.getElementById('custom-cursor');
+
+        if (cursor) {
+            const updateCursorPosition = e => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+                cursor.style.opacity = '1';
+            };
+
+            const hideCursor = () => {
+                cursor.style.opacity = '0';
+            };
+
+            document.addEventListener('mousemove', updateCursorPosition);
+            document.addEventListener('mouseout', hideCursor);
+            document.addEventListener('mouseover', e => {
+                if (e.target.closest('a, button, input, textarea, select')) {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                } else {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                }
+            });
+        }
+    }
+
+    function init() {
+        initCustomCursor();
+    }
+
+    // Inicializar en la carga inicial y en cada navegación
+    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('astro:page-load', init);
+</script>

@@ -1,7 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import CustomCursor from '../components/CustomCursor.astro';
 
 interface Props {
 	title: string;
@@ -29,10 +29,10 @@ const { title } = Astro.props;
 	</head>
 	<body>
 		<Header />
+		<CustomCursor />
 		<main>
 			<slot />
 		</main>
-		<Footer />
 	</body><style is:global>
 		@font-face {
 			font-family: 'Menda';
@@ -83,6 +83,11 @@ const { title } = Astro.props;
 		}
 		body {
 			overflow-x: hidden !important;
+		}
+		body {
+			cursor:
+				url('/custom-cursor_1.png') 16 16,
+				auto;
 		}
 		/* body {
 			max-width: 1600px;
@@ -175,6 +180,27 @@ const { title } = Astro.props;
 		/* Cambiar el color de la pista de la barra de desplazamiento */
 		::-webkit-scrollbar-track {
 			background-color: #131217;
+		}
+
+		input::placeholder {
+			color: #6976df;
+			opacity: 1;
+		}
+		input::-webkit-input-placeholder {
+			color: #6976df;
+		}
+		input:-ms-input-placeholder {
+			color: #6976df;
+		}
+		textarea::placeholder {
+			color: #6976df;
+			opacity: 1;
+		}
+		textarea::-webkit-input-placeholder {
+			color: #6976df;
+		}
+		textarea:-ms-input-placeholder {
+			color: #6976df;
 		}
 	</style>
 </html>

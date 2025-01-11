@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import FooterContact from '../components/FooterContact.astro';
+---
+
+<Layout title="Contacto - Federico Sánchez">
+    <main
+        class="p-6 max-w-[1600px] mx-auto pb-24 gap-14 grid grid-cols-1 md:grid-cols-[55%_45%] lg:items-center"
+    >
+        <section class="relative col-span-1">
+            <h2
+                class="text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[12rem] text-[#EFA6F5] uppercase"
+            >
+                En que puedo <span class="text-[#6976DF]">ayudarte?</span>
+            </h2>
+            <p class="text-xl md:text-lg lg:text-3xl">
+                Si tienes alguna duda, puedes ponerte en contacto conmigo y
+                contarme qué es lo que necesitas.
+            </p>
+            <ContactForm />
+        </section>
+        <section class="about-item">
+            <img
+                src="/marketing-digital-federico-sanchez.webp"
+                alt="Foto de Federico"
+            />
+
+            <div class="confetti-container"></div>
+        </section>
+    </main>
+    <FooterContact />
+</Layout>
