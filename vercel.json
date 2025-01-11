@@ -2,10 +2,5 @@
     "buildCommand": "npm run build",
     "outputDirectory": "dist",
     "framework": "astro",
-    "installCommand": "npm install",
-    "functions": {
-        "api/*": {
-            "runtime": "nodejs18.x"
-        }
-    }
+    "installCommand": "npm install"
 }
