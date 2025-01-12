@@ -1,6 +1,6 @@
 ---
 title: 12 plugins imprescindibles para Wordpress [2025]
-img: provisional-blog.svg
+img: plugins-imprescindibles-para-wordpress.svg
 extracto: Conoce que son los plugins de Wordpress y que debes tener en cuenta ✚ Los plugins imprescindibles para Wordpress en 2025 ✅
 ---
 

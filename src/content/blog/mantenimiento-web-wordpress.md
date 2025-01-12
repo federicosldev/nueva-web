@@ -1,6 +1,6 @@
 ---
 title: Mantenimiento Web WordPress, Tareas + Precios [2025]
-img: provisional-blog.svg
+img: mantenimiento-web-wordpress.svg
 extracto: Mantenimiento web en Wordpress. ¿Qué es? Más sus Precios y las Tareas que incluye el mantenimiento web ✅
 ---
 ## **Mantenimiento Web en WordPress**

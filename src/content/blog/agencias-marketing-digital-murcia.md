@@ -1,6 +1,6 @@
 ---
 title: 14 mejores agencias de marketing digital en Murcia [2025]
-img: provisional-blog.svg
+img: mejores-agencias-marketing-digital-murcia.svg
 extracto: Conoce las mejores agencias de marketing digital en Murcia ✅ Aquí tienes un listado de las mejores agencias de marketing online en Murcia.
 ---
 A día de hoy, tener presencia en el **mundo online no es una opción, es una obligación.**
