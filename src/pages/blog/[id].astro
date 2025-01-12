@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PostsCard from '../../components/PostsCard.astro';
+import FooterContact from '../../components/FooterContact.astro';
 
 export async function getStaticPaths() {
     const blogEntries = await getCollection('blog');
@@ -19,6 +20,9 @@ const { title, img } = data;
 const { Content } = await render(entry);
 ---
 
+<head>
+    <meta name="robots" content="noindex, nofollow" />
+</head>
 <Layout title={`${title} - Federico Sanchez`}>
     <article
         class="flex flex-col md:flex-row max-w-[1600px] mx-auto mb-20 md:mb-40 py-6 px-4 sm:px-6 lg:px-12 2xl:px-0 gap-6 mt-12"
@@ -90,4 +94,5 @@ const { Content } = await render(entry);
             <PostsCard limit={2} />
         </aside>
     </article>
+    <FooterContact />
 </Layout>

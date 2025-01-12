@@ -18,6 +18,9 @@ const { name, type, img, tag1, tag2 } = data;
 const { Content } = await render(project);
 ---
 
+<head>
+    <meta name="robots" content="noindex, nofollow" />
+</head>
 <Layout title={`${name} - Federico Sanchez`}>
     <article
         class="max-w-full px-4 lg:px-10 mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 py-10"
