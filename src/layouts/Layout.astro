@@ -32,6 +32,10 @@ const { title } = Astro.props;
 		<CustomCursor />
 		<main>
 			<slot />
+			<script>
+				import { initLenis } from '../utils/lenis';
+				initLenis();
+			</script>
 		</main>
 	</body><style is:global>
 		@font-face {

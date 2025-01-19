@@ -18,8 +18,8 @@
         position: fixed;
         pointer-events: none;
         z-index: 9999;
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
         background-image: url('/custom-cursor.svg');
         background-size: contain;
         background-repeat: no-repeat;
@@ -36,7 +36,7 @@
     input:hover ~ #custom-cursor,
     textarea:hover ~ #custom-cursor,
     select:hover ~ #custom-cursor {
-        transform: translate(-50%, -50%) scale(1.5);
+        transform: translate(-50%, -50%) scale(1.1);
     }
     /* Desactivar el cursor personalizado en dispositivos táctiles */
     @media (pointer: coarse) {
@@ -65,7 +65,7 @@
             document.addEventListener('mouseout', hideCursor);
             document.addEventListener('mouseover', e => {
                 if (e.target.closest('a, button, input, textarea, select')) {
-                    cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1.2)';
                 } else {
                     cursor.style.transform = 'translate(-50%, -50%) scale(1)';
                 }
