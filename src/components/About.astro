@@ -20,12 +20,13 @@
         </p>
     </div>
 </section> -->---
---- ---
+---
 <section
     class="physics-section bg-lightpurple-pattern flex flex-col items-center justify-center text-center pt-16 md:pt-[100px] lg:pt-[160px] pb-20 md:pb-[150px] lg:pb-[200px] relative overflow-hidden"
 >
-    <div class="physics-container absolute inset-0 z-0"></div>
-    <div class="content relative z-10 w-full max-w-[1140px] px-4">
+    <div
+        class="content relative z-10 w-full max-w-[1140px] px-4 pointer-events-none"
+    >
         <h2
             class="text-6xl md:text-5xl lg:text-7xl xl:text-9xl text-primary-purple uppercase"
         >
@@ -39,12 +40,16 @@
             los posibles obstáculos a superar.
         </p>
     </div>
+    <div class="physics-boundary absolute z-0 hidden lg:block"></div>
+    <div class="physics-container absolute z-0 hidden lg:block"></div>
 </section>
 
 <script>
     import Matter from 'matter-js';
 
     function initPhysics() {
+        if (window.innerWidth < 1024) return;
+
         const Engine = Matter.Engine;
         const Render = Matter.Render;
         const World = Matter.World;
@@ -52,17 +57,32 @@
         const Mouse = Matter.Mouse;
         const MouseConstraint = Matter.MouseConstraint;
         const Runner = Matter.Runner;
+        const Events = Matter.Events;
 
         const container = document.querySelector('.physics-container');
-        if (!container) return;
+        const boundary = document.querySelector('.physics-boundary');
+        if (!container || !boundary) return;
+
+        const content = document.querySelector('.content');
+        if (!content) return;
 
         const updateContainerDimensions = () => {
             const section = container.closest('.physics-section');
             if (section) {
-                container.style.height = `${section.clientHeight}px`;
+                const contentRect = content.getBoundingClientRect();
+                const sectionRect = section.getBoundingClientRect();
+                const contentBottom = contentRect.bottom - sectionRect.top;
+
+                // Ajustar el contenedor de física y el límite para empezar después del contenido
+                container.style.top = `${contentBottom}px`;
+                container.style.height = `${sectionRect.height - contentBottom}px`;
+                boundary.style.top = `${contentBottom}px`;
+                boundary.style.height = `${sectionRect.height - contentBottom}px`;
+
                 return {
                     width: container.clientWidth,
                     height: container.clientHeight,
+                    contentBottom,
                 };
             }
             return null;
@@ -70,29 +90,6 @@
 
         const dimensions = updateContainerDimensions();
         if (!dimensions) return;
-
-        const isMobile = window.innerWidth < 768;
-        const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
-
-        // Ajustar tamaños según el dispositivo
-        const getItemDimensions = (baseWidth, baseHeight) => {
-            if (isMobile) {
-                return {
-                    width: Math.floor(baseWidth * 0.7),
-                    height: Math.floor(baseHeight * 0.7),
-                };
-            }
-            if (isTablet) {
-                return {
-                    width: Math.floor(baseWidth * 0.85),
-                    height: Math.floor(baseHeight * 0.85),
-                };
-            }
-            return {
-                width: baseWidth,
-                height: baseHeight,
-            };
-        };
 
         const engine = Engine.create({
             gravity: { x: 0, y: 1, scale: 0.001 },
@@ -113,7 +110,7 @@
         const runner = Runner.create();
         Runner.run(runner, engine);
 
-        const baseItems = [
+        const items = [
             { type: 'text', content: 'DESIGN', width: 150, height: 60 },
             {
                 type: 'image',
@@ -137,15 +134,6 @@
             { type: 'text', content: 'PROTOTYPING', width: 190, height: 60 },
             { type: 'text', content: 'TECHNOLOGY', width: 180, height: 60 },
         ];
-
-        // Ajustar dimensiones de los items según el dispositivo
-        const items = baseItems.map(item => {
-            const { width, height } = getItemDimensions(
-                item.width,
-                item.height,
-            );
-            return { ...item, width, height };
-        });
 
         const walls = [
             Bodies.rectangle(
@@ -212,9 +200,7 @@
                 ctx.fillStyle = '#6b46c1';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                // Ajustar tamaño de fuente según dispositivo
-                const fontSize = isMobile ? 12 : isTablet ? 14 : 16;
-                ctx.font = `bold ${fontSize}px Arial`;
+                ctx.font = 'bold 24px Darker Grotesque';
                 ctx.fillText(item.content, item.width / 2, item.height / 2);
             }
 
@@ -228,7 +214,7 @@
                 friction: 0.8,
                 restitution: 0.2,
                 density: 0.001,
-                chamfer: { radius: isMobile ? 15 : 20 },
+                chamfer: { radius: 20 },
                 render: {
                     sprite: {
                         texture: canvas.toDataURL(),
@@ -241,7 +227,7 @@
             const body = Bodies.rectangle(
                 Math.random() * (dimensions.width - item.width) +
                     item.width / 2,
-                dimensions.height - (isMobile ? 200 : 300),
+                dimensions.height - 100,
                 item.width,
                 item.height,
                 commonProperties,
@@ -276,7 +262,7 @@
             return body;
         });
 
-        const mouse = Mouse.create(render.canvas);
+        const mouse = Mouse.create(boundary);
         const mouseConstraint = MouseConstraint.create(engine, {
             mouse: mouse,
             constraint: {
@@ -292,6 +278,13 @@
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
+                if (window.innerWidth < 1024) {
+                    World.clear(engine.world);
+                    Engine.clear(engine);
+                    render.canvas.remove();
+                    return;
+                }
+
                 const newDimensions = updateContainerDimensions();
                 if (!newDimensions) return;
 
@@ -315,7 +308,6 @@
                     ),
                 );
 
-                // Reiniciar la física cuando cambia el tamaño de la ventana
                 World.clear(engine.world);
                 Engine.clear(engine);
                 initPhysics();
@@ -335,9 +327,16 @@
 
     .physics-container {
         width: 100%;
-        height: 100%;
         position: absolute;
         inset: 0;
+        pointer-events: none;
+    }
+
+    .physics-boundary {
+        width: 100%;
+        position: absolute;
+        inset: 0;
+        pointer-events: auto;
     }
 
     .physics-container canvas {
@@ -346,6 +345,7 @@
         left: 0;
         width: 100%;
         height: 100%;
+        pointer-events: none;
     }
 
     .content {
