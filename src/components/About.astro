@@ -20,7 +20,7 @@
         </p>
     </div>
 </section> -->---
---- ---
+---
 <section
     class="physics-section bg-lightpurple-pattern flex flex-col items-center justify-center text-center pt-16 md:pt-[100px] lg:pt-[160px] pb-20 md:pb-[150px] lg:pb-[200px] relative overflow-hidden"
 >
@@ -49,10 +49,10 @@
 
     function getScaleFactor() {
         const width = window.innerWidth;
-        if (width >= 1920) return 1; // Pantalla grande
-        if (width >= 1536) return 0.9; // XL
-        if (width >= 1280) return 0.8; // LG
-        return 0.7; // Por defecto para laptop
+        const baseWidth = 1920; // Ancho de referencia para pantalla grande
+        const minScale = 0.35; // Escala mínima para evitar que los elementos sean demasiado pequeños
+        const scale = Math.max(minScale, width / baseWidth);
+        return scale;
     }
 
     function initPhysics() {
@@ -117,72 +117,78 @@
         Runner.run(runner, engine);
 
         const scaleFactor = getScaleFactor();
+        const baseSize = {
+            small: 150,
+            medium: 180,
+            large: 220,
+        };
+
         const items = [
             {
                 type: 'text',
                 content: 'DESIGN',
-                width: 150 * scaleFactor,
+                width: baseSize.small * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'image',
                 content:
                     'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-iiWctC0jibsNzjYbGJvCcuH3UQacfC.png',
-                width: 180 * scaleFactor,
+                width: baseSize.medium * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'USER EXPERIENCE',
-                width: 220 * scaleFactor,
+                width: baseSize.large * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'INSPIRATION',
-                width: 190 * scaleFactor,
+                width: baseSize.medium * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'E-COMMERCE',
-                width: 180 * scaleFactor,
+                width: baseSize.medium * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'MOTION GRAPHIC',
-                width: 200 * scaleFactor,
+                width: baseSize.large * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'WEB DESIGN',
-                width: 190 * scaleFactor,
+                width: baseSize.medium * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'BRAND',
-                width: 140 * scaleFactor,
+                width: baseSize.small * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'USER INTERFACE',
-                width: 210 * scaleFactor,
+                width: baseSize.large * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'PROTOTYPING',
-                width: 190 * scaleFactor,
+                width: baseSize.medium * scaleFactor,
                 height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'TECHNOLOGY',
-                width: 180 * scaleFactor,
+                width: baseSize.medium * scaleFactor,
                 height: 60 * scaleFactor,
             },
         ];
