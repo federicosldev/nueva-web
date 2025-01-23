@@ -20,7 +20,7 @@
         </p>
     </div>
 </section> -->---
----
+--- ---
 <section
     class="physics-section bg-lightpurple-pattern flex flex-col items-center justify-center text-center pt-16 md:pt-[100px] lg:pt-[160px] pb-20 md:pb-[150px] lg:pb-[200px] relative overflow-hidden"
 >
@@ -47,8 +47,16 @@
 <script>
     import Matter from 'matter-js';
 
+    function getScaleFactor() {
+        const width = window.innerWidth;
+        if (width >= 1920) return 1; // Pantalla grande
+        if (width >= 1536) return 0.9; // XL
+        if (width >= 1280) return 0.8; // LG
+        return 0.7; // Por defecto para laptop
+    }
+
     function initPhysics() {
-        if (window.innerWidth < 1280) return;
+        if (window.innerWidth < 1024) return;
 
         const Engine = Matter.Engine;
         const Render = Matter.Render;
@@ -57,7 +65,6 @@
         const Mouse = Matter.Mouse;
         const MouseConstraint = Matter.MouseConstraint;
         const Runner = Matter.Runner;
-        const Events = Matter.Events;
 
         const container = document.querySelector('.physics-container');
         const boundary = document.querySelector('.physics-boundary');
@@ -73,7 +80,6 @@
                 const sectionRect = section.getBoundingClientRect();
                 const contentBottom = contentRect.bottom - sectionRect.top;
 
-                // Ajustar el contenedor de física y el límite para empezar después del contenido
                 container.style.top = `${contentBottom}px`;
                 container.style.height = `${sectionRect.height - contentBottom}px`;
                 boundary.style.top = `${contentBottom}px`;
@@ -110,29 +116,75 @@
         const runner = Runner.create();
         Runner.run(runner, engine);
 
+        const scaleFactor = getScaleFactor();
         const items = [
-            { type: 'text', content: 'DESIGN', width: 150, height: 60 },
+            {
+                type: 'text',
+                content: 'DESIGN',
+                width: 150 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
             {
                 type: 'image',
                 content:
                     'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-iiWctC0jibsNzjYbGJvCcuH3UQacfC.png',
-                width: 180,
-                height: 60,
+                width: 180 * scaleFactor,
+                height: 60 * scaleFactor,
             },
             {
                 type: 'text',
                 content: 'USER EXPERIENCE',
-                width: 220,
-                height: 60,
+                width: 220 * scaleFactor,
+                height: 60 * scaleFactor,
             },
-            { type: 'text', content: 'INSPIRATION', width: 190, height: 60 },
-            { type: 'text', content: 'E-COMMERCE', width: 180, height: 60 },
-            { type: 'text', content: 'MOTION GRAPHIC', width: 200, height: 60 },
-            { type: 'text', content: 'WEB DESIGN', width: 190, height: 60 },
-            { type: 'text', content: 'BRAND', width: 140, height: 60 },
-            { type: 'text', content: 'USER INTERFACE', width: 210, height: 60 },
-            { type: 'text', content: 'PROTOTYPING', width: 190, height: 60 },
-            { type: 'text', content: 'TECHNOLOGY', width: 180, height: 60 },
+            {
+                type: 'text',
+                content: 'INSPIRATION',
+                width: 190 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'E-COMMERCE',
+                width: 180 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'MOTION GRAPHIC',
+                width: 200 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'WEB DESIGN',
+                width: 190 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'BRAND',
+                width: 140 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'USER INTERFACE',
+                width: 210 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'PROTOTYPING',
+                width: 190 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
+            {
+                type: 'text',
+                content: 'TECHNOLOGY',
+                width: 180 * scaleFactor,
+                height: 60 * scaleFactor,
+            },
         ];
 
         const walls = [
@@ -200,7 +252,8 @@
                 ctx.fillStyle = '#6b46c1';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.font = 'bold 24px Darker Grotesque';
+                const fontSize = Math.floor(24 * scaleFactor);
+                ctx.font = `bold ${fontSize}px Darker Grotesque`;
                 ctx.fillText(item.content, item.width / 2, item.height / 2);
             }
 
@@ -214,7 +267,7 @@
                 friction: 0.8,
                 restitution: 0.2,
                 density: 0.001,
-                chamfer: { radius: 20 },
+                chamfer: { radius: 20 * scaleFactor },
                 render: {
                     sprite: {
                         texture: canvas.toDataURL(),
