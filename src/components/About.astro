@@ -47,14 +47,6 @@
 <script>
     import Matter from 'matter-js';
 
-    function getScaleFactor() {
-        const width = window.innerWidth;
-        const baseWidth = 1920; // Ancho de referencia para pantalla grande
-        const minScale = 0.35; // Escala mínima para evitar que los elementos sean demasiado pequeños
-        const scale = Math.max(minScale, width / baseWidth);
-        return scale;
-    }
-
     function initPhysics() {
         if (window.innerWidth < 1024) return;
 
@@ -116,81 +108,30 @@
         const runner = Runner.create();
         Runner.run(runner, engine);
 
-        const scaleFactor = getScaleFactor();
-        const baseSize = {
-            small: 150,
-            medium: 180,
-            large: 220,
-        };
-
+        // Tamaños fijos para todos los elementos
         const items = [
-            {
-                type: 'text',
-                content: 'DESIGN',
-                width: baseSize.small * scaleFactor,
-                height: 60 * scaleFactor,
-            },
+            { type: 'text', content: 'DESIGN', width: 100, height: 40 },
             {
                 type: 'image',
                 content:
                     'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-iiWctC0jibsNzjYbGJvCcuH3UQacfC.png',
-                width: baseSize.medium * scaleFactor,
-                height: 60 * scaleFactor,
+                width: 120,
+                height: 40,
             },
             {
                 type: 'text',
                 content: 'USER EXPERIENCE',
-                width: baseSize.large * scaleFactor,
-                height: 60 * scaleFactor,
+                width: 140,
+                height: 40,
             },
-            {
-                type: 'text',
-                content: 'INSPIRATION',
-                width: baseSize.medium * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'E-COMMERCE',
-                width: baseSize.medium * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'MOTION GRAPHIC',
-                width: baseSize.large * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'WEB DESIGN',
-                width: baseSize.medium * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'BRAND',
-                width: baseSize.small * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'USER INTERFACE',
-                width: baseSize.large * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'PROTOTYPING',
-                width: baseSize.medium * scaleFactor,
-                height: 60 * scaleFactor,
-            },
-            {
-                type: 'text',
-                content: 'TECHNOLOGY',
-                width: baseSize.medium * scaleFactor,
-                height: 60 * scaleFactor,
-            },
+            { type: 'text', content: 'INSPIRATION', width: 120, height: 40 },
+            { type: 'text', content: 'E-COMMERCE', width: 120, height: 40 },
+            { type: 'text', content: 'MOTION GRAPHIC', width: 140, height: 40 },
+            { type: 'text', content: 'WEB DESIGN', width: 120, height: 40 },
+            { type: 'text', content: 'BRAND', width: 100, height: 40 },
+            { type: 'text', content: 'USER INTERFACE', width: 140, height: 40 },
+            { type: 'text', content: 'PROTOTYPING', width: 120, height: 40 },
+            { type: 'text', content: 'TECHNOLOGY', width: 120, height: 40 },
         ];
 
         const walls = [
@@ -258,8 +199,7 @@
                 ctx.fillStyle = '#6b46c1';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                const fontSize = Math.floor(24 * scaleFactor);
-                ctx.font = `bold ${fontSize}px Darker Grotesque`;
+                ctx.font = 'bold 16px Darker Grotesque';
                 ctx.fillText(item.content, item.width / 2, item.height / 2);
             }
 
@@ -273,7 +213,7 @@
                 friction: 0.8,
                 restitution: 0.2,
                 density: 0.001,
-                chamfer: { radius: 20 * scaleFactor },
+                chamfer: { radius: 15 },
                 render: {
                     sprite: {
                         texture: canvas.toDataURL(),
