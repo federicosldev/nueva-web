@@ -6,4 +6,9 @@ export default defineConfig({
   integrations: [tailwind()],
   output: 'static',          // or 'server' if you need SSR
   adapter: vercel(),
+  vite: {
+    ssr: {
+      noExternal: ['matter-js'],
+    },
+  },
 });
