@@ -1,5 +1,9 @@
 ---
+interface Props {
+    title: string;
+}
 
+const { title } = Astro.props;
 ---
 
 <section
@@ -71,7 +75,7 @@
         if (!dimensions) return;
 
         const engine = Engine.create({
-            gravity: { x: 0, y: 1, scale: 0.001 },
+            gravity: { x: 0, y: 1, scale: 0.0008 }, // Reducida la escala de gravedad
         });
 
         const render = Render.create({
@@ -91,15 +95,19 @@
 
         // Función para obtener las dimensiones según el tamaño de la pantalla
         const getItemDimensions = baseWidth => {
-            const isLargeScreen = window.innerWidth >= 1536; // Pantallas grandes
-            const scale = isLargeScreen ? 1 : 0.55; // 55% del tamaño para pantallas más pequeñas
+            const isLargeScreen = window.innerWidth >= 1536;
+            const scale = isLargeScreen ? 1 : 0.55;
 
             return {
                 width: Math.round(baseWidth * scale),
-                height: Math.round(60 * scale), // Altura base de 60px
-                fontSize: isLargeScreen ? 24 : 13, // Fuente más pequeña para pantallas pequeñas
+                height: Math.round(60 * scale),
+                fontSize: isLargeScreen ? 24 : 13,
                 chamferRadius: isLargeScreen ? 15 : 8,
-                imageScale: isLargeScreen ? 0.8 : 0.9, // Escala de imagen más grande en pantallas pequeñas
+                imageScale: isLargeScreen ? 0.8 : 0.9,
+                // Propiedades físicas ajustadas según el tamaño de pantalla
+                density: isLargeScreen ? 0.001 : 0.002,
+                friction: isLargeScreen ? 0.8 : 0.9,
+                restitution: isLargeScreen ? 0.2 : 0.1,
             };
         };
 
@@ -128,6 +136,9 @@
                 fontSize: dims.fontSize,
                 chamferRadius: dims.chamferRadius,
                 imageScale: dims.imageScale,
+                density: dims.density,
+                friction: dims.friction,
+                restitution: dims.restitution,
             };
         });
 
@@ -139,15 +150,15 @@
                 60,
                 {
                     isStatic: true,
-                    friction: 0.8,
-                    restitution: 0.2,
+                    friction: 1, // Aumentada la fricción del suelo
+                    restitution: 0.1,
                     render: { fillStyle: 'transparent' },
                 },
             ),
             Bodies.rectangle(0, dimensions.height / 2, 60, dimensions.height, {
                 isStatic: true,
-                friction: 0.8,
-                restitution: 0.2,
+                friction: 0.9,
+                restitution: 0.1,
                 render: { fillStyle: 'transparent' },
             }),
             Bodies.rectangle(
@@ -157,8 +168,8 @@
                 dimensions.height,
                 {
                     isStatic: true,
-                    friction: 0.8,
-                    restitution: 0.2,
+                    friction: 0.9,
+                    restitution: 0.1,
                     render: { fillStyle: 'transparent' },
                 },
             ),
@@ -207,9 +218,9 @@
             const canvas = createPillCanvas(item);
 
             const commonProperties = {
-                friction: 0.8,
-                restitution: 0.2,
-                density: 0.001,
+                friction: item.friction,
+                restitution: item.restitution,
+                density: item.density,
                 chamfer: { radius: item.chamferRadius },
                 render: {
                     sprite: {
@@ -220,10 +231,14 @@
                 },
             };
 
+            // Distribuir los elementos más espaciados al inicio
+            const spacing = dimensions.width / (items.length + 1);
+            const index = items.indexOf(item);
+            const startX = spacing * (index + 1);
+
             const body = Bodies.rectangle(
-                Math.random() * (dimensions.width - item.width) +
-                    item.width / 2,
-                dimensions.height - 100,
+                startX,
+                dimensions.height - 100 - Math.random() * 50, // Altura inicial aleatoria
                 item.width,
                 item.height,
                 commonProperties,
