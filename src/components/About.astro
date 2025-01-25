@@ -89,30 +89,45 @@
         const runner = Runner.create();
         Runner.run(runner, engine);
 
-        // Tamaños más pequeños y fijos para todos los elementos
-        const items = [
-            { type: 'text', content: 'DESIGN', width: 105, height: 42 },
-            {
-                type: 'image',
-                content: 'hero-smile.svg',
-                width: 126,
-                height: 42,
-            },
-            {
-                type: 'text',
-                content: 'USER EXPERIENCE',
-                width: 154,
-                height: 42,
-            },
-            { type: 'text', content: 'INSPIRATION', width: 133, height: 42 },
-            { type: 'text', content: 'E-COMMERCE', width: 126, height: 42 },
-            { type: 'text', content: 'MOTION GRAPHIC', width: 140, height: 42 },
-            { type: 'text', content: 'WEB DESIGN', width: 133, height: 42 },
-            { type: 'text', content: 'BRAND', width: 98, height: 42 },
-            { type: 'text', content: 'USER INTERFACE', width: 147, height: 42 },
-            { type: 'text', content: 'PROTOTYPING', width: 133, height: 42 },
-            { type: 'text', content: 'TECHNOLOGY', width: 126, height: 42 },
+        // Función para obtener las dimensiones según el tamaño de la pantalla
+        const getItemDimensions = baseWidth => {
+            const isLargeScreen = window.innerWidth >= 1536; // Pantallas grandes
+            const scale = isLargeScreen ? 1 : 0.7; // 70% del tamaño para pantallas más pequeñas
+
+            return {
+                width: Math.round(baseWidth * scale),
+                height: Math.round(60 * scale), // Altura base de 60px
+                fontSize: isLargeScreen ? 24 : 18,
+                chamferRadius: isLargeScreen ? 15 : 10,
+            };
+        };
+
+        // Definición de elementos con sus anchos base
+        const itemsBase = [
+            { type: 'text', content: 'DESIGN', baseWidth: 150 },
+            { type: 'image', content: 'hero-smile.svg', baseWidth: 180 },
+            { type: 'text', content: 'USER EXPERIENCE', baseWidth: 220 },
+            { type: 'text', content: 'INSPIRATION', baseWidth: 190 },
+            { type: 'text', content: 'E-COMMERCE', baseWidth: 180 },
+            { type: 'text', content: 'MOTION GRAPHIC', baseWidth: 200 },
+            { type: 'text', content: 'WEB DESIGN', baseWidth: 190 },
+            { type: 'text', content: 'BRAND', baseWidth: 140 },
+            { type: 'text', content: 'USER INTERFACE', baseWidth: 210 },
+            { type: 'text', content: 'PROTOTYPING', baseWidth: 190 },
+            { type: 'text', content: 'TECHNOLOGY', baseWidth: 180 },
         ];
+
+        // Aplicar dimensiones responsivas
+        const items = itemsBase.map(item => {
+            const dims = getItemDimensions(item.baseWidth);
+            return {
+                ...item,
+                width: dims.width,
+                height: dims.height,
+                fontSize: dims.fontSize,
+                chamferRadius: dims.chamferRadius,
+            };
+        });
 
         const walls = [
             Bodies.rectangle(
@@ -179,8 +194,7 @@
                 ctx.fillStyle = '#fff';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                // Tamaño de fuente más pequeño y fijo
-                ctx.font = 'bold 16px Darker Grotesque';
+                ctx.font = `bold ${item.fontSize}px Darker Grotesque`;
                 ctx.fillText(item.content, item.width / 2, item.height / 2);
             }
 
@@ -194,7 +208,7 @@
                 friction: 0.8,
                 restitution: 0.2,
                 density: 0.001,
-                chamfer: { radius: 10 }, // Radio de chaflán más pequeño y fijo
+                chamfer: { radius: item.chamferRadius },
                 render: {
                     sprite: {
                         texture: canvas.toDataURL(),
