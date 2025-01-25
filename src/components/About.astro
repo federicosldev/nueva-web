@@ -89,91 +89,30 @@
         const runner = Runner.create();
         Runner.run(runner, engine);
 
-        // Función para calcular el tamaño basado en el ancho de la ventana
-        const calculateSize = (baseWidth, baseHeight) => {
-            const screenWidth = window.innerWidth;
-            let scale = 1;
-
-            if (screenWidth < 1280) {
-                // Pantallas pequeñas
-                scale = 0.7;
-            } else if (screenWidth < 1536) {
-                // Pantallas medianas
-                scale = 0.85;
-            }
-
-            return {
-                width: baseWidth * scale,
-                height: baseHeight * scale,
-            };
-        };
-
-        // Tamaños base que se ajustarán según el tamaño de la pantalla
+        // Tamaños más pequeños y fijos para todos los elementos
         const items = [
-            { type: 'text', content: 'DESIGN', baseWidth: 150, baseHeight: 60 },
+            { type: 'text', content: 'DESIGN', width: 105, height: 42 },
             {
                 type: 'image',
                 content: 'hero-smile.svg',
-                baseWidth: 180,
-                baseHeight: 60,
+                width: 126,
+                height: 42,
             },
             {
                 type: 'text',
                 content: 'USER EXPERIENCE',
-                baseWidth: 220,
-                baseHeight: 60,
+                width: 154,
+                height: 42,
             },
-            {
-                type: 'text',
-                content: 'INSPIRATION',
-                baseWidth: 190,
-                baseHeight: 60,
-            },
-            {
-                type: 'text',
-                content: 'E-COMMERCE',
-                baseWidth: 180,
-                baseHeight: 60,
-            },
-            {
-                type: 'text',
-                content: 'MOTION GRAPHIC',
-                baseWidth: 200,
-                baseHeight: 60,
-            },
-            {
-                type: 'text',
-                content: 'WEB DESIGN',
-                baseWidth: 190,
-                baseHeight: 60,
-            },
-            { type: 'text', content: 'BRAND', baseWidth: 140, baseHeight: 60 },
-            {
-                type: 'text',
-                content: 'USER INTERFACE',
-                baseWidth: 210,
-                baseHeight: 60,
-            },
-            {
-                type: 'text',
-                content: 'PROTOTYPING',
-                baseWidth: 190,
-                baseHeight: 60,
-            },
-            {
-                type: 'text',
-                content: 'TECHNOLOGY',
-                baseWidth: 180,
-                baseHeight: 60,
-            },
-        ].map(item => {
-            const size = calculateSize(item.baseWidth, item.baseHeight);
-            return {
-                ...item,
-                width: size.width,
-                height: size.height,
-            };
-        });
+            { type: 'text', content: 'INSPIRATION', width: 133, height: 42 },
+            { type: 'text', content: 'E-COMMERCE', width: 126, height: 42 },
+            { type: 'text', content: 'MOTION GRAPHIC', width: 140, height: 42 },
+            { type: 'text', content: 'WEB DESIGN', width: 133, height: 42 },
+            { type: 'text', content: 'BRAND', width: 98, height: 42 },
+            { type: 'text', content: 'USER INTERFACE', width: 147, height: 42 },
+            { type: 'text', content: 'PROTOTYPING', width: 133, height: 42 },
+            { type: 'text', content: 'TECHNOLOGY', width: 126, height: 42 },
+        ];
 
         const walls = [
             Bodies.rectangle(
@@ -240,9 +179,8 @@
                 ctx.fillStyle = '#fff';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                // Ajustar el tamaño de la fuente según el tamaño del elemento
-                const fontSize = Math.min(24 * (item.height / 60), 24);
-                ctx.font = `bold ${fontSize}px Darker Grotesque`;
+                // Tamaño de fuente más pequeño y fijo
+                ctx.font = 'bold 16px Darker Grotesque';
                 ctx.fillText(item.content, item.width / 2, item.height / 2);
             }
 
@@ -256,7 +194,7 @@
                 friction: 0.8,
                 restitution: 0.2,
                 density: 0.001,
-                chamfer: { radius: Math.min(15 * (item.height / 60), 15) },
+                chamfer: { radius: 10 }, // Radio de chaflán más pequeño y fijo
                 render: {
                     sprite: {
                         texture: canvas.toDataURL(),
