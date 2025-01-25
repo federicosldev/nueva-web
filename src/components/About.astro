@@ -92,14 +92,15 @@
         // Función para obtener las dimensiones según el tamaño de la pantalla
         const getItemDimensions = baseWidth => {
             const isLargeScreen = window.innerWidth >= 1536; // Pantallas grandes
-            const scale = isLargeScreen ? 1 : 0.55; // 55% del tamaño para pantallas más pequeñas
+            const scale = isLargeScreen ? 1 : 0.5; // 50% del tamaño para pantallas más pequeñas
 
             return {
                 width: Math.round(baseWidth * scale),
                 height: Math.round(60 * scale), // Altura base de 60px
-                fontSize: isLargeScreen ? 24 : 16, // Fuente más pequeña para pantallas pequeñas
+                fontSize: isLargeScreen ? 24 : 14, // Fuente más pequeña para pantallas pequeñas
                 chamferRadius: isLargeScreen ? 15 : 8,
                 imageScale: isLargeScreen ? 0.8 : 0.9, // Escala de imagen más grande en pantallas pequeñas
+                bottomOffset: isLargeScreen ? 100 : 50, // Offset más pequeño para pantallas pequeñas
             };
         };
 
@@ -128,6 +129,7 @@
                 fontSize: dims.fontSize,
                 chamferRadius: dims.chamferRadius,
                 imageScale: dims.imageScale,
+                bottomOffset: dims.bottomOffset,
             };
         });
 
@@ -223,7 +225,7 @@
             const body = Bodies.rectangle(
                 Math.random() * (dimensions.width - item.width) +
                     item.width / 2,
-                dimensions.height - 100,
+                dimensions.height - item.bottomOffset,
                 item.width,
                 item.height,
                 commonProperties,
