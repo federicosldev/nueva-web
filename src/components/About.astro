@@ -92,13 +92,14 @@
         // Función para obtener las dimensiones según el tamaño de la pantalla
         const getItemDimensions = baseWidth => {
             const isLargeScreen = window.innerWidth >= 1536; // Pantallas grandes
-            const scale = isLargeScreen ? 1 : 0.7; // 70% del tamaño para pantallas más pequeñas
+            const scale = isLargeScreen ? 1 : 0.55; // 55% del tamaño para pantallas más pequeñas
 
             return {
                 width: Math.round(baseWidth * scale),
                 height: Math.round(60 * scale), // Altura base de 60px
-                fontSize: isLargeScreen ? 24 : 18,
-                chamferRadius: isLargeScreen ? 15 : 10,
+                fontSize: isLargeScreen ? 24 : 16, // Fuente más pequeña para pantallas pequeñas
+                chamferRadius: isLargeScreen ? 15 : 8,
+                imageScale: isLargeScreen ? 0.8 : 0.9, // Escala de imagen más grande en pantallas pequeñas
             };
         };
 
@@ -126,6 +127,7 @@
                 height: dims.height,
                 fontSize: dims.fontSize,
                 chamferRadius: dims.chamferRadius,
+                imageScale: dims.imageScale,
             };
         });
 
@@ -237,11 +239,11 @@
                     const scale = window.devicePixelRatio || 1;
 
                     const aspectRatio = img.width / img.height;
-                    let drawWidth = item.width * 0.8 * scale;
+                    let drawWidth = item.width * item.imageScale * scale;
                     let drawHeight = drawWidth / aspectRatio;
 
-                    if (drawHeight > item.height * 0.8 * scale) {
-                        drawHeight = item.height * 0.8 * scale;
+                    if (drawHeight > item.height * item.imageScale * scale) {
+                        drawHeight = item.height * item.imageScale * scale;
                         drawWidth = drawHeight * aspectRatio;
                     }
 
