@@ -75,7 +75,7 @@ const { title } = Astro.props;
         if (!dimensions) return;
 
         const engine = Engine.create({
-            gravity: { x: 0, y: 1, scale: 0.0008 }, // Reducida la escala de gravedad
+            gravity: { x: 0, y: 1, scale: 0.0005 }, // Reducida aún más la escala de gravedad
         });
 
         const render = Render.create({
@@ -96,7 +96,7 @@ const { title } = Astro.props;
         // Función para obtener las dimensiones según el tamaño de la pantalla
         const getItemDimensions = baseWidth => {
             const isLargeScreen = window.innerWidth >= 1536;
-            const scale = isLargeScreen ? 1 : 0.55;
+            const scale = isLargeScreen ? 1 : 0.5; // Reducido el scale para pantallas pequeñas
 
             return {
                 width: Math.round(baseWidth * scale),
@@ -104,10 +104,10 @@ const { title } = Astro.props;
                 fontSize: isLargeScreen ? 24 : 13,
                 chamferRadius: isLargeScreen ? 15 : 8,
                 imageScale: isLargeScreen ? 0.8 : 0.9,
-                // Propiedades físicas ajustadas según el tamaño de pantalla
-                density: isLargeScreen ? 0.001 : 0.002,
-                friction: isLargeScreen ? 0.8 : 0.9,
-                restitution: isLargeScreen ? 0.2 : 0.1,
+                // Propiedades físicas ajustadas
+                density: isLargeScreen ? 0.001 : 0.003, // Aumentada la densidad en pantallas pequeñas
+                friction: isLargeScreen ? 0.8 : 1, // Máxima fricción en pantallas pequeñas
+                restitution: isLargeScreen ? 0.2 : 0.05, // Reducido el rebote en pantallas pequeñas
             };
         };
 
@@ -150,15 +150,15 @@ const { title } = Astro.props;
                 60,
                 {
                     isStatic: true,
-                    friction: 1, // Aumentada la fricción del suelo
-                    restitution: 0.1,
+                    friction: 1,
+                    restitution: 0.05, // Reducido aún más el rebote
                     render: { fillStyle: 'transparent' },
                 },
             ),
             Bodies.rectangle(0, dimensions.height / 2, 60, dimensions.height, {
                 isStatic: true,
-                friction: 0.9,
-                restitution: 0.1,
+                friction: 1,
+                restitution: 0.05,
                 render: { fillStyle: 'transparent' },
             }),
             Bodies.rectangle(
@@ -168,8 +168,8 @@ const { title } = Astro.props;
                 dimensions.height,
                 {
                     isStatic: true,
-                    friction: 0.9,
-                    restitution: 0.1,
+                    friction: 1,
+                    restitution: 0.05,
                     render: { fillStyle: 'transparent' },
                 },
             ),
@@ -214,7 +214,7 @@ const { title } = Astro.props;
             return canvas;
         }
 
-        const bodies = items.map(item => {
+        const bodies = items.map((item, index) => {
             const canvas = createPillCanvas(item);
 
             const commonProperties = {
@@ -231,14 +231,16 @@ const { title } = Astro.props;
                 },
             };
 
-            // Distribuir los elementos más espaciados al inicio
-            const spacing = dimensions.width / (items.length + 1);
-            const index = items.indexOf(item);
-            const startX = spacing * (index + 1);
+            // Distribuir los elementos en filas
+            const itemsPerRow = Math.ceil(items.length / 2);
+            const row = Math.floor(index / itemsPerRow);
+            const col = index % itemsPerRow;
+            const spacing = dimensions.width / (itemsPerRow + 1);
+            const verticalSpacing = 80;
 
             const body = Bodies.rectangle(
-                startX,
-                dimensions.height - 100 - Math.random() * 50, // Altura inicial aleatoria
+                spacing * (col + 1),
+                dimensions.height - 200 - row * verticalSpacing,
                 item.width,
                 item.height,
                 commonProperties,
