@@ -43,6 +43,9 @@ const { title } = Astro.props;
         const MouseConstraint = Matter.MouseConstraint;
         const Runner = Matter.Runner;
 
+        let isRunning = false;
+        let bodies = [];
+
         const container = document.querySelector('.physics-container');
         const boundary = document.querySelector('.physics-boundary');
         if (!container || !boundary) return;
@@ -75,7 +78,7 @@ const { title } = Astro.props;
         if (!dimensions) return;
 
         const engine = Engine.create({
-            gravity: { x: 0, y: 1, scale: 0.0005 }, // Reducida aún más la escala de gravedad
+            gravity: { x: 0, y: 1, scale: 0.0008 }, // Reducida la gravedad para una caída más suave
         });
 
         const render = Render.create({
@@ -91,27 +94,48 @@ const { title } = Astro.props;
         });
 
         const runner = Runner.create();
-        Runner.run(runner, engine);
 
-        // Función para obtener las dimensiones según el tamaño de la pantalla
+        const getSizeConfig = () => {
+            const largeScreen = {
+                baseScale: 1,
+                fontSize: 24,
+                chamferRadius: 15,
+                imageScale: 0.8,
+                density: 0.001,
+                friction: 0.8,
+                restitution: 0.2,
+                heightMultiplier: 1,
+            };
+
+            const mediumScreen = {
+                baseScale: 0.7,
+                fontSize: 18,
+                chamferRadius: 12,
+                imageScale: 0.9,
+                density: 0.002,
+                friction: 0.9,
+                restitution: 0.15,
+                heightMultiplier: 0.8,
+            };
+
+            return window.innerWidth >= 1536 ? largeScreen : mediumScreen;
+        };
+
         const getItemDimensions = baseWidth => {
-            const isLargeScreen = window.innerWidth >= 1536;
-            const scale = isLargeScreen ? 1 : 0.5; // Reducido el scale para pantallas pequeñas
+            const config = getSizeConfig();
 
             return {
-                width: Math.round(baseWidth * scale),
-                height: Math.round(60 * scale),
-                fontSize: isLargeScreen ? 24 : 13,
-                chamferRadius: isLargeScreen ? 15 : 8,
-                imageScale: isLargeScreen ? 0.8 : 0.9,
-                // Propiedades físicas ajustadas
-                density: isLargeScreen ? 0.001 : 0.003, // Aumentada la densidad en pantallas pequeñas
-                friction: isLargeScreen ? 0.8 : 1, // Máxima fricción en pantallas pequeñas
-                restitution: isLargeScreen ? 0.2 : 0.05, // Reducido el rebote en pantallas pequeñas
+                width: Math.round(baseWidth * config.baseScale),
+                height: Math.round(60 * config.heightMultiplier),
+                fontSize: config.fontSize,
+                chamferRadius: config.chamferRadius,
+                imageScale: config.imageScale,
+                density: config.density,
+                friction: config.friction,
+                restitution: config.restitution,
             };
         };
 
-        // Definición de elementos con sus anchos base
         const itemsBase = [
             { type: 'text', content: 'DESIGN', baseWidth: 150 },
             { type: 'image', content: 'hero-smile.svg', baseWidth: 180 },
@@ -126,7 +150,6 @@ const { title } = Astro.props;
             { type: 'text', content: 'TECHNOLOGY', baseWidth: 180 },
         ];
 
-        // Aplicar dimensiones responsivas
         const items = itemsBase.map(item => {
             const dims = getItemDimensions(item.baseWidth);
             return {
@@ -151,7 +174,7 @@ const { title } = Astro.props;
                 {
                     isStatic: true,
                     friction: 1,
-                    restitution: 0.05, // Reducido aún más el rebote
+                    restitution: 0.05,
                     render: { fillStyle: 'transparent' },
                 },
             ),
@@ -174,6 +197,8 @@ const { title } = Astro.props;
                 },
             ),
         ];
+
+        World.add(engine.world, walls);
 
         function createPillCanvas(item) {
             const scale = window.devicePixelRatio || 1;
@@ -214,66 +239,71 @@ const { title } = Astro.props;
             return canvas;
         }
 
-        const bodies = items.map((item, index) => {
-            const canvas = createPillCanvas(item);
+        function createBodies() {
+            bodies = items.map((item, index) => {
+                const canvas = createPillCanvas(item);
 
-            const commonProperties = {
-                friction: item.friction,
-                restitution: item.restitution,
-                density: item.density,
-                chamfer: { radius: item.chamferRadius },
-                render: {
-                    sprite: {
-                        texture: canvas.toDataURL(),
-                        xScale: 1,
-                        yScale: 1,
+                const commonProperties = {
+                    friction: item.friction,
+                    restitution: item.restitution,
+                    density: item.density,
+                    chamfer: { radius: item.chamferRadius },
+                    render: {
+                        sprite: {
+                            texture: canvas.toDataURL(),
+                            xScale: 1,
+                            yScale: 1,
+                        },
                     },
-                },
-            };
-
-            // Distribuir los elementos en filas
-            const itemsPerRow = Math.ceil(items.length / 2);
-            const row = Math.floor(index / itemsPerRow);
-            const col = index % itemsPerRow;
-            const spacing = dimensions.width / (itemsPerRow + 1);
-            const verticalSpacing = 80;
-
-            const body = Bodies.rectangle(
-                spacing * (col + 1),
-                dimensions.height - 200 - row * verticalSpacing,
-                item.width,
-                item.height,
-                commonProperties,
-            );
-
-            if (item.type === 'image') {
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                img.src = item.content;
-                img.onload = () => {
-                    const canvas = createPillCanvas(item);
-                    const ctx = canvas.getContext('2d');
-                    const scale = window.devicePixelRatio || 1;
-
-                    const aspectRatio = img.width / img.height;
-                    let drawWidth = item.width * item.imageScale * scale;
-                    let drawHeight = drawWidth / aspectRatio;
-
-                    if (drawHeight > item.height * item.imageScale * scale) {
-                        drawHeight = item.height * item.imageScale * scale;
-                        drawWidth = drawHeight * aspectRatio;
-                    }
-
-                    const x = (item.width * scale - drawWidth) / 2;
-                    const y = (item.height * scale - drawHeight) / 2;
-
-                    ctx.drawImage(img, x, y, drawWidth, drawHeight);
-                    body.render.sprite.texture = canvas.toDataURL();
                 };
-            }
 
-            return body;
-        });
+                const spacing = dimensions.width / (items.length + 1);
+                const yOffset = Math.random() * 20;
+
+                const body = Bodies.rectangle(
+                    spacing * (index + 1),
+                    -200 + yOffset, // Posición inicial un poco más arriba
+                    item.width,
+                    item.height,
+                    commonProperties,
+                );
+
+                if (item.type === 'image') {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = item.content;
+                    img.onload = () => {
+                        const canvas = createPillCanvas(item);
+                        const ctx = canvas.getContext('2d');
+                        const scale = window.devicePixelRatio || 1;
+
+                        const aspectRatio = img.width / img.height;
+                        let drawWidth = item.width * item.imageScale * scale;
+                        let drawHeight = drawWidth / aspectRatio;
+
+                        if (
+                            drawHeight >
+                            item.height * item.imageScale * scale
+                        ) {
+                            drawHeight = item.height * item.imageScale * scale;
+                            drawWidth = drawHeight * aspectRatio;
+                        }
+
+                        const x = (item.width * scale - drawWidth) / 2;
+                        const y = (item.height * scale - drawHeight) / 2;
+
+                        ctx.drawImage(img, x, y, drawWidth, drawHeight);
+                        body.render.sprite.texture = canvas.toDataURL();
+                    };
+                }
+
+                return body;
+            });
+
+            return bodies;
+        }
+
+        bodies = createBodies();
 
         const mouse = Mouse.create(boundary);
         const mouseConstraint = MouseConstraint.create(engine, {
@@ -284,8 +314,14 @@ const { title } = Astro.props;
             },
         });
 
-        World.add(engine.world, [...walls, ...bodies, mouseConstraint]);
+        // Iniciar el renderizado inmediatamente
         Render.run(render);
+
+        // Retrasar el inicio de la física y la adición de los cuerpos
+        setTimeout(() => {
+            World.add(engine.world, [...bodies, mouseConstraint]);
+            Runner.run(runner, engine);
+        }, 500); // Retraso de 500ms antes de que empiecen a caer
 
         let resizeTimeout;
         window.addEventListener('resize', () => {
