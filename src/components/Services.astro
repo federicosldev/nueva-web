@@ -1,20 +1,36 @@
-<section class="p-6 max-w-[1600px] mx-auto">
+<section class="p-6 max-w-[1600px] mx-auto relative">
+    <div
+        class="service-image fixed top-0 left-0 w-[300px] h-[200px] pointer-events-none opacity-0 z-50"
+    >
+        <img
+            src="/placeholder.svg"
+            alt="Service preview"
+            class="w-full h-full object-cover rounded-lg"
+        />
+    </div>
+
     <div class="flex flex-col md:gap-8 lg:flex-row">
         <h2 class="text-5xl md:text-6xl lg:text-8xl text-[#EFA6F5] uppercase">
             Convierto tus <span class="text-[#6976DF]">ideas en realidad</span>
         </h2>
 
         <p
-            class="text-xl md:text-lg lg:text-3xl w-full lg:w-[1000px] prose-invert"
+            class="text-xl md:text-lg lg:text-3xl w-full lg:w-[1550px] prose-invert"
         >
-            Tienes una idea, yo tengo las herramientas para hacerla realidad.
-            Diseño web, desarrollo y estrategia digital para que tu proyecto
-            pase del boceto a la acción.
+            Tienes una idea, y yo tengo las herramientas para convertirla en una
+            realidad digital con impacto. A través de un diseño web estratégico,
+            un desarrollo sólido y una estrategia digital bien pensada,
+            transformo conceptos en proyectos funcionales y atractivos. No se
+            trata solo de crear una web bonita, sino de construir una presencia
+            online que genere resultados, atraiga clientes y haga crecer tu
+            negocio.
         </p>
     </div>
+
     <article class="flex flex-col gap-7 mt-10 pb-20">
         <div
-            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple"
+            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple hover:bg-primary-pink transition-colors duration-300 ease-in-out"
+            data-image="/proyecto-clinica-veterinaria.webp"
         >
             <h3
                 class="text-primary-purple text-4xl md:text-4xl lg:text-6xl pl-0 md:pl-5 text-center md:text-left"
@@ -49,8 +65,10 @@
                 </a>
             </div>
         </div>
+
         <div
-            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple"
+            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple hover:bg-primary-pink transition-colors duration-300 ease-in-out"
+            data-image="/proyecto-herbolario-de-maria.webp"
         >
             <h3
                 class="text-primary-purple text-4xl md:text-4xl lg:text-6xl pl-0 md:pl-5 text-center md:text-left"
@@ -85,8 +103,10 @@
                 </a>
             </div>
         </div>
+
         <div
-            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple"
+            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple hover:bg-primary-pink transition-colors duration-300 ease-in-out"
+            data-image="/ruta-imagen-marketing.jpg"
         >
             <h3
                 class="text-primary-purple text-4xl md:text-4xl lg:text-6xl pl-0 md:pl-5 text-center md:text-left"
@@ -121,8 +141,10 @@
                 </a>
             </div>
         </div>
+
         <div
-            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple"
+            class="service-item w-full flex flex-row md:flex-row justify-between items-center p-6 md:p-10 bg-purple-bg rounded-2xl md:rounded-full border border-primary-purple hover:bg-primary-pink transition-colors duration-300 ease-in-out"
+            data-image="/ruta-imagen-seo.jpg"
         >
             <h3
                 class="text-primary-purple text-4xl md:text-4xl lg:text-6xl pl-0 md:pl-5 text-center md:text-left"
@@ -158,86 +180,108 @@
             </div>
         </div>
     </article>
-    <div class="confetti-container"></div>
 </section>
+
+<style>
+    .service-image {
+        will-change: transform;
+        pointer-events: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        rotate: -5deg;
+        width: 400px;
+        height: 300px;
+    }
+
+    .service-item {
+        cursor: pointer;
+        position: relative;
+    }
+    @media (max-width: 768px) {
+        .service-image {
+            display: none !important;
+        }
+    }
+</style>
 <script>
     import { gsap } from 'gsap';
 
-    let lastConfettiTime = 0;
-    const CONFETTI_COOLDOWN = 100; // Minimum time between confetti bursts in milliseconds
-
-    function createConfetti(container, mouseX, mouseY) {
-        const currentTime = Date.now();
-        if (currentTime - lastConfettiTime < CONFETTI_COOLDOWN) return;
-        lastConfettiTime = currentTime;
-
-        const confettiCount = 2; // Reduced number of confetti elements
-        const confettiImages = ['/triangulo.svg', '/favicon.svg'];
-
-        for (let i = 0; i < confettiCount; i++) {
-            const confetti = document.createElement('img');
-            confetti.src =
-                confettiImages[
-                    Math.floor(Math.random() * confettiImages.length)
-                ];
-            confetti.style.position = 'absolute';
-            confetti.style.left = `${mouseX}px`;
-            confetti.style.top = `${mouseY}px`;
-            confetti.style.width = '50px';
-            confetti.style.height = '50px';
-            confetti.style.pointerEvents = 'none';
-            container.appendChild(confetti);
-
-            gsap.fromTo(
-                confetti,
-                {
-                    x: 0,
-                    y: 0,
-                    rotation: 0,
-                    scale: 0,
-                    opacity: 1,
-                },
-                {
-                    x: (Math.random() - 0.5) * 100, // Reduced spread
-                    y: -Math.random() * 100, // Reduced height
-                    rotation: Math.random() * 360,
-                    scale: Math.random() * 1 + 1,
-                    opacity: 1,
-                    duration: 1 + Math.random() * 0.3,
-                    ease: 'power2.out',
-                    onComplete: () => {
-                        container.removeChild(confetti);
-                    },
-                },
+    function initServiceAnimation() {
+        const isMobile =
+            /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+                navigator.userAgent,
             );
+        if (isMobile) {
+            return;
         }
-    }
-
-    function initConfetti() {
-        const container = document.querySelector('.confetti-container');
+        const serviceImage = document.querySelector('.service-image');
         const serviceItems = document.querySelectorAll('.service-item');
+        const img = serviceImage.querySelector('img');
+
+        let currentX = 0;
+        let currentY = 0;
+
+        function updateImagePosition(e) {
+            currentX = e.clientX + 20;
+            currentY = e.clientY + 20;
+            gsap.to(serviceImage, {
+                x: currentX,
+                y: currentY,
+                duration: 0.3,
+                ease: 'power2.out',
+            });
+        }
+
+        const tl = gsap.timeline({ paused: true });
+
+        tl.fromTo(
+            serviceImage,
+            {
+                opacity: 0,
+                scale: 0.8,
+                rotation: -15,
+            },
+            {
+                opacity: 1,
+                scale: 1,
+                rotation: 0,
+                duration: 0.5,
+                ease: 'back.out(1.7)',
+            },
+        );
 
         serviceItems.forEach(item => {
-            let isHovering = false;
-
-            item.addEventListener('mouseenter', () => {
-                isHovering = true;
+            item.addEventListener('mouseenter', e => {
+                const imageUrl = item.dataset.image;
+                img.src = imageUrl;
+                updateImagePosition(e);
+                tl.restart();
             });
+
+            item.addEventListener('mousemove', updateImagePosition);
 
             item.addEventListener('mouseleave', () => {
-                isHovering = false;
-            });
-
-            item.addEventListener('mousemove', e => {
-                if (!isHovering) return;
-
-                const x = e.clientX;
-                const y = e.clientY + window.scrollY;
-                createConfetti(container, x, y);
+                gsap.to(serviceImage, {
+                    opacity: 0,
+                    scale: 0.8,
+                    rotation: -15,
+                    duration: 0.3,
+                    ease: 'power2.in',
+                });
             });
         });
     }
 
-    document.addEventListener('astro:page-load', initConfetti);
-    document.addEventListener('DOMContentLoaded', initConfetti);
+    function setupAnimation() {
+        // Limpiar eventos anteriores si existen
+        const serviceItems = document.querySelectorAll('.service-item');
+        serviceItems.forEach(item => {
+            item.removeEventListener('mouseenter', null);
+            item.removeEventListener('mousemove', null);
+            item.removeEventListener('mouseleave', null);
+        });
+        initServiceAnimation();
+    }
+
+    document.addEventListener('DOMContentLoaded', setupAnimation);
+    document.addEventListener('astro:page-load', setupAnimation);
 </script>
