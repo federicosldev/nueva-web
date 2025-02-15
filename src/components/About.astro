@@ -25,7 +25,6 @@ const { title } = Astro.props;
             los posibles obstáculos a superar.
         </p>
     </div>
-    <div class="physics-boundary absolute z-0 hidden lg:block"></div>
     <div class="physics-container absolute z-0 hidden lg:block"></div>
 </section>
 
@@ -45,43 +44,44 @@ const { title } = Astro.props;
 
         let isRunning = false;
         let bodies = [];
+        let engine = null;
+        let render = null;
+        let runner = null;
 
         const container = document.querySelector('.physics-container');
-        const boundary = document.querySelector('.physics-boundary');
-        if (!container || !boundary) return;
-
         const content = document.querySelector('.content');
-        if (!content) return;
+        if (!container || !content) return;
 
         const updateContainerDimensions = () => {
             const section = container.closest('.physics-section');
-            if (section) {
-                const contentRect = content.getBoundingClientRect();
-                const sectionRect = section.getBoundingClientRect();
-                const contentBottom = contentRect.bottom - sectionRect.top;
+            if (!section) return null;
 
-                container.style.top = `${contentBottom}px`;
-                container.style.height = `${sectionRect.height - contentBottom}px`;
-                boundary.style.top = `${contentBottom}px`;
-                boundary.style.height = `${sectionRect.height - contentBottom}px`;
+            const contentRect = content.getBoundingClientRect();
+            const sectionRect = section.getBoundingClientRect();
+            const contentBottom = contentRect.bottom - sectionRect.top;
+            const availableHeight = Math.max(
+                300,
+                sectionRect.height - contentBottom - 100,
+            );
 
-                return {
-                    width: container.clientWidth,
-                    height: container.clientHeight,
-                    contentBottom,
-                };
-            }
-            return null;
+            container.style.top = `${contentBottom}px`;
+            container.style.height = `${availableHeight}px`;
+
+            return {
+                width: section.clientWidth,
+                height: availableHeight,
+                contentBottom,
+            };
         };
 
         const dimensions = updateContainerDimensions();
         if (!dimensions) return;
 
-        const engine = Engine.create({
-            gravity: { x: 0, y: 1, scale: 0.0008 }, // Reducida la gravedad para una caída más suave
+        engine = Engine.create({
+            gravity: { x: 0, y: 1, scale: 0.0015 },
         });
 
-        const render = Render.create({
+        render = Render.create({
             element: container,
             engine: engine,
             options: {
@@ -89,60 +89,21 @@ const { title } = Astro.props;
                 height: dimensions.height,
                 wireframes: false,
                 background: 'transparent',
-                pixelRatio: window.devicePixelRatio,
+                pixelRatio: 1,
             },
         });
 
-        const runner = Runner.create();
+        // Make the canvas interactive
+        render.canvas.style.pointerEvents = 'auto';
 
-        const getSizeConfig = () => {
-            const largeScreen = {
-                baseScale: 1,
-                fontSize: 24,
-                chamferRadius: 15,
-                imageScale: 0.8,
-                density: 0.001,
-                friction: 0.8,
-                restitution: 0.2,
-                heightMultiplier: 1,
-            };
-
-            const mediumScreen = {
-                baseScale: 0.7,
-                fontSize: 18,
-                chamferRadius: 12,
-                imageScale: 0.9,
-                density: 0.002,
-                friction: 0.9,
-                restitution: 0.15,
-                heightMultiplier: 0.8,
-            };
-
-            return window.innerWidth >= 1536 ? largeScreen : mediumScreen;
-        };
-
-        const getItemDimensions = baseWidth => {
-            const config = getSizeConfig();
-
-            return {
-                width: Math.round(baseWidth * config.baseScale),
-                height: Math.round(60 * config.heightMultiplier),
-                fontSize: config.fontSize,
-                chamferRadius: config.chamferRadius,
-                imageScale: config.imageScale,
-                density: config.density,
-                friction: config.friction,
-                restitution: config.restitution,
-            };
-        };
+        runner = Runner.create();
 
         const itemsBase = [
             { type: 'text', content: 'DESIGN', baseWidth: 150 },
-            { type: 'image', content: 'hero-smile.svg', baseWidth: 180 },
             { type: 'text', content: 'USER EXPERIENCE', baseWidth: 220 },
             { type: 'text', content: 'INSPIRATION', baseWidth: 190 },
             { type: 'text', content: 'E-COMMERCE', baseWidth: 180 },
-            { type: 'text', content: 'REACTJS', baseWidth: 200 },
+            { type: 'text', content: 'REACTJS', baseWidth: 160 },
             { type: 'text', content: 'WEB DESIGN', baseWidth: 190 },
             { type: 'text', content: 'BRAND', baseWidth: 140 },
             { type: 'text', content: 'USER INTERFACE', baseWidth: 210 },
@@ -150,49 +111,114 @@ const { title } = Astro.props;
             { type: 'text', content: 'TECHNOLOGY', baseWidth: 180 },
         ];
 
-        const items = itemsBase.map(item => {
-            const dims = getItemDimensions(item.baseWidth);
-            return {
-                ...item,
-                width: dims.width,
-                height: dims.height,
-                fontSize: dims.fontSize,
-                chamferRadius: dims.chamferRadius,
-                imageScale: dims.imageScale,
-                density: dims.density,
-                friction: dims.friction,
-                restitution: dims.restitution,
-            };
-        });
+        function createPillCanvas(width, height, text, fontSize = 20) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const scale = 1;
 
+            canvas.width = width * scale;
+            canvas.height = height * scale;
+            ctx.scale(scale, scale);
+
+            // Draw pill shape
+            ctx.fillStyle = '#1d1d1d';
+            const radius = height / 2;
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(width - radius, 0);
+            ctx.arcTo(width, 0, width, radius, radius);
+            ctx.arcTo(width, height, width - radius, height, radius);
+            ctx.lineTo(radius, height);
+            ctx.arcTo(0, height, 0, height - radius, radius);
+            ctx.arcTo(0, 0, radius, 0, radius);
+            ctx.closePath();
+            ctx.fill();
+
+            // Add text
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = `bold ${fontSize}px "Darker Grotesque", sans-serif`;
+            ctx.fillText(text, width / 2, height / 2);
+
+            return canvas;
+        }
+
+        function createBodies() {
+            const scale =
+                window.innerWidth >= 1536
+                    ? 1
+                    : window.innerWidth >= 1280
+                      ? 0.85
+                      : 0.7;
+
+            return itemsBase.map((item, index) => {
+                const width = Math.round(item.baseWidth * scale);
+                const height = Math.round(45 * scale);
+                const fontSize = Math.round(24 * scale);
+
+                const canvas = createPillCanvas(
+                    width,
+                    height,
+                    item.content,
+                    fontSize,
+                );
+
+                const spacing = dimensions.width / (itemsBase.length + 1);
+                const yOffset = -100 - Math.random() * 200;
+
+                return Bodies.rectangle(
+                    spacing * (index + 1),
+                    yOffset,
+                    width,
+                    height,
+                    {
+                        friction: 0.3,
+                        restitution: 0.6,
+                        density: 0.001,
+                        chamfer: { radius: 10 },
+                        render: {
+                            sprite: {
+                                texture: canvas.toDataURL(),
+                            },
+                        },
+                    },
+                );
+            });
+        }
+
+        // Create walls with increased width for better containment
         const walls = [
             Bodies.rectangle(
                 dimensions.width / 2,
-                dimensions.height + 30,
-                dimensions.width,
-                60,
+                dimensions.height + 50,
+                dimensions.width + 100,
+                100,
                 {
                     isStatic: true,
-                    friction: 1,
-                    restitution: 0.05,
+                    friction: 0.3,
                     render: { fillStyle: 'transparent' },
                 },
             ),
-            Bodies.rectangle(0, dimensions.height / 2, 60, dimensions.height, {
-                isStatic: true,
-                friction: 1,
-                restitution: 0.05,
-                render: { fillStyle: 'transparent' },
-            }),
             Bodies.rectangle(
-                dimensions.width,
+                -50,
                 dimensions.height / 2,
-                60,
+                100,
                 dimensions.height,
                 {
                     isStatic: true,
-                    friction: 1,
-                    restitution: 0.05,
+                    friction: 0.3,
+                    render: { fillStyle: 'transparent' },
+                },
+            ),
+            Bodies.rectangle(
+                dimensions.width + 50,
+                dimensions.height / 2,
+                100,
+                dimensions.height,
+                {
+                    isStatic: true,
+                    friction: 0.3,
                     render: { fillStyle: 'transparent' },
                 },
             ),
@@ -200,112 +226,8 @@ const { title } = Astro.props;
 
         World.add(engine.world, walls);
 
-        function createPillCanvas(item) {
-            const scale = window.devicePixelRatio || 1;
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            canvas.width = item.width * scale;
-            canvas.height = item.height * scale;
-            ctx.scale(scale, scale);
-
-            ctx.fillStyle = '#1d1d1d';
-            const radius = item.height / 2;
-            ctx.beginPath();
-            ctx.moveTo(radius, 0);
-            ctx.lineTo(item.width - radius, 0);
-            ctx.arcTo(item.width, 0, item.width, radius, radius);
-            ctx.arcTo(
-                item.width,
-                item.height,
-                item.width - radius,
-                item.height,
-                radius,
-            );
-            ctx.lineTo(radius, item.height);
-            ctx.arcTo(0, item.height, 0, item.height - radius, radius);
-            ctx.arcTo(0, 0, radius, 0, radius);
-            ctx.closePath();
-            ctx.fill();
-
-            if (item.type === 'text') {
-                ctx.fillStyle = '#fff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.font = `bold ${item.fontSize}px Darker Grotesque`;
-                ctx.fillText(item.content, item.width / 2, item.height / 2);
-            }
-
-            return canvas;
-        }
-
-        function createBodies() {
-            bodies = items.map((item, index) => {
-                const canvas = createPillCanvas(item);
-
-                const commonProperties = {
-                    friction: item.friction,
-                    restitution: item.restitution,
-                    density: item.density,
-                    chamfer: { radius: item.chamferRadius },
-                    render: {
-                        sprite: {
-                            texture: canvas.toDataURL(),
-                            xScale: 1,
-                            yScale: 1,
-                        },
-                    },
-                };
-
-                const spacing = dimensions.width / (items.length + 1);
-                const yOffset = Math.random() * 20;
-
-                const body = Bodies.rectangle(
-                    spacing * (index + 1),
-                    -200 + yOffset, // Posición inicial un poco más arriba
-                    item.width,
-                    item.height,
-                    commonProperties,
-                );
-
-                if (item.type === 'image') {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.src = item.content;
-                    img.onload = () => {
-                        const canvas = createPillCanvas(item);
-                        const ctx = canvas.getContext('2d');
-                        const scale = window.devicePixelRatio || 1;
-
-                        const aspectRatio = img.width / img.height;
-                        let drawWidth = item.width * item.imageScale * scale;
-                        let drawHeight = drawWidth / aspectRatio;
-
-                        if (
-                            drawHeight >
-                            item.height * item.imageScale * scale
-                        ) {
-                            drawHeight = item.height * item.imageScale * scale;
-                            drawWidth = drawHeight * aspectRatio;
-                        }
-
-                        const x = (item.width * scale - drawWidth) / 2;
-                        const y = (item.height * scale - drawHeight) / 2;
-
-                        ctx.drawImage(img, x, y, drawWidth, drawHeight);
-                        body.render.sprite.texture = canvas.toDataURL();
-                    };
-                }
-
-                return body;
-            });
-
-            return bodies;
-        }
-
-        bodies = createBodies();
-
-        const mouse = Mouse.create(boundary);
+        // Create mouse constraint with improved settings
+        const mouse = Mouse.create(render.canvas);
         const mouseConstraint = MouseConstraint.create(engine, {
             mouse: mouse,
             constraint: {
@@ -314,23 +236,30 @@ const { title } = Astro.props;
             },
         });
 
-        // Iniciar el renderizado inmediatamente
+        // Keep the mouse in sync with rendering
+        render.mouse = mouse;
+
         Render.run(render);
 
-        // Retrasar el inicio de la física y la adición de los cuerpos
         setTimeout(() => {
+            bodies = createBodies();
             World.add(engine.world, [...bodies, mouseConstraint]);
             Runner.run(runner, engine);
-        }, 500); // Retraso de 500ms antes de que empiecen a caer
+            isRunning = true;
+        }, 500);
 
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 if (window.innerWidth < 1024) {
-                    World.clear(engine.world);
-                    Engine.clear(engine);
-                    render.canvas.remove();
+                    if (isRunning) {
+                        Runner.stop(runner);
+                        Render.stop(render);
+                        World.clear(engine.world, true);
+                        render.canvas.remove();
+                        isRunning = false;
+                    }
                     return;
                 }
 
@@ -342,26 +271,30 @@ const { title } = Astro.props;
                 render.options.width = newDimensions.width;
                 render.options.height = newDimensions.height;
 
-                Matter.Body.setPosition(
-                    walls[0],
-                    Matter.Vector.create(
-                        newDimensions.width / 2,
-                        newDimensions.height + 30,
-                    ),
-                );
-                Matter.Body.setPosition(
-                    walls[2],
-                    Matter.Vector.create(
-                        newDimensions.width,
-                        newDimensions.height / 2,
-                    ),
-                );
+                Matter.Body.setPosition(walls[0], {
+                    x: newDimensions.width / 2,
+                    y: newDimensions.height + 50,
+                });
+                Matter.Body.setPosition(walls[2], {
+                    x: newDimensions.width + 50,
+                    y: newDimensions.height / 2,
+                });
 
-                World.clear(engine.world);
-                Engine.clear(engine);
-                initPhysics();
+                World.clear(engine.world, false);
+                World.add(engine.world, [...walls, mouseConstraint]);
+                bodies = createBodies();
+                World.add(engine.world, bodies);
             }, 250);
         });
+
+        return () => {
+            if (isRunning) {
+                Runner.stop(runner);
+                Render.stop(render);
+                World.clear(engine.world, true);
+                render.canvas.remove();
+            }
+        };
     }
 
     document.addEventListener('astro:page-load', initPhysics);
@@ -369,7 +302,7 @@ const { title } = Astro.props;
 
 <style>
     .physics-section {
-        min-height: 80vh;
+        height: 91vh;
         position: relative;
         overflow: hidden;
     }
@@ -378,28 +311,27 @@ const { title } = Astro.props;
         width: 100%;
         position: absolute;
         inset: 0;
-        pointer-events: none;
-    }
-
-    .physics-boundary {
-        width: 100%;
-        position: absolute;
-        inset: 0;
-        pointer-events: auto;
     }
 
     .physics-container canvas {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
+        width: 100% !important;
+        height: 100% !important;
     }
 
     .content {
         position: relative;
         z-index: 10;
         text-align: center;
+        margin: 0 auto;
+        max-width: 1140px;
+    }
+
+    @media (max-width: 1023px) {
+        .physics-section {
+            height: auto;
+        }
     }
 </style>
