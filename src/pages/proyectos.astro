@@ -43,7 +43,7 @@ const uniqueTypes = [...new Set(allProjects.map(project => project.data.type))];
         const filterButtons = document.querySelectorAll('.filter-btn');
         const projects = document.querySelectorAll('article');
 
-        if (filterButtons.length === 0 || projects.length === 0) return; // Evita errores si no hay elementos
+        if (filterButtons.length === 0 || projects.length === 0) return;
 
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -53,8 +53,9 @@ const uniqueTypes = [...new Set(allProjects.map(project => project.data.type))];
                 const selectedType = button.getAttribute('data-type');
 
                 projects.forEach(project => {
-                    const projectType =
-                        project.querySelector('.text-light-purple').textContent;
+                    const projectType = project
+                        .querySelector('.text-light-purple')
+                        ?.textContent.trim();
 
                     if (
                         selectedType === 'all' ||
@@ -75,6 +76,11 @@ const uniqueTypes = [...new Set(allProjects.map(project => project.data.type))];
         document.querySelector('[data-type="all"]')?.click();
     }
 
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupFilters);
+    } else {
+        setupFilters();
+    }
+
     document.addEventListener('astro:page-load', setupFilters);
-    document.addEventListener('DOMContentLoaded', setupFilters);
 </script>
