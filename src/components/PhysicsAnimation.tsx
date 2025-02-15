@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useEffect, useRef, useState } from "react"
 
@@ -33,7 +31,10 @@ const PhysicsAnimation: React.FC<PhysicsAnimationProps> = ({ items }) => {
             const Matter = await import("matter-js")
 
             const engine = Matter.Engine.create({
-                gravity: { x: 0, y: 1, scale: 0.0008 },
+                gravity: { x: 0, y: 0.5 },
+                constraintIterations: 4,
+                positionIterations: 8,
+                velocityIterations: 8,
             })
 
             const containerRect = containerRef.current!.getBoundingClientRect()
@@ -49,22 +50,25 @@ const PhysicsAnimation: React.FC<PhysicsAnimationProps> = ({ items }) => {
                 },
             })
 
-            const getSizeConfig = () => ({
-                baseScale: 0.7,
-                fontSize: 18,
-                chamferRadius: 12,
-                imageScale: 0.75,
-                density: 0.0015,
-                friction: 0.85,
-                restitution: 0.18,
-                heightMultiplier: 0.9,
-            })
+            const getSizeConfig = () => {
+                return {
+                    baseScale: 0.65,
+                    fontSize: 18,
+                    chamferRadius: 10,
+                    imageScale: 0.65,
+                    density: 0.005,
+                    friction: 0.2,
+                    restitution: 0.3,
+                    heightMultiplier: 1,
+                    spacing: containerRect.width * 0.5,
+                }
+            }
 
             const getItemDimensions = (baseWidth: number) => {
                 const config = getSizeConfig()
                 return {
                     width: Math.round(baseWidth * config.baseScale),
-                    height: Math.round(50 * config.heightMultiplier),
+                    height: Math.round(40 * config.heightMultiplier),
                     fontSize: config.fontSize,
                     chamferRadius: config.chamferRadius,
                     imageScale: config.imageScale,
@@ -109,29 +113,45 @@ const PhysicsAnimation: React.FC<PhysicsAnimationProps> = ({ items }) => {
                 return canvas
             }
 
+            // Mejorada la distribución inicial de los elementos
+            const calculateInitialPositions = () => {
+                const positions: { x: number; y: number }[] = []
+                const margin = 100 // Margen desde los bordes
+                const usableWidth = containerRect.width - margin * 2
+
+                items.forEach(() => {
+                    // Posición X aleatoria dentro del área útil
+                    const x = margin + Math.random() * usableWidth
+                    // Posición Y por encima del área visible
+                    const y = -300 - Math.random() * 500 // Mayor dispersión vertical inicial
+                    positions.push({ x, y })
+                })
+
+                return positions
+            }
+
+            const initialPositions = calculateInitialPositions()
+
             const bodies = items.map((item, index) => {
                 const canvas = createPillCanvas(item)
                 const dims = getItemDimensions(item.baseWidth)
+                const position = initialPositions[index]
 
-                const body = Matter.Bodies.rectangle(
-                    (index + 1) * (containerRect.width / (items.length + 1)),
-                    -200 + Math.random() * 20,
-                    dims.width,
-                    dims.height,
-                    {
-                        friction: dims.friction,
-                        restitution: dims.restitution,
-                        density: dims.density,
-                        chamfer: { radius: dims.chamferRadius },
-                        render: {
-                            sprite: {
-                                texture: canvas.toDataURL(),
-                                xScale: 1,
-                                yScale: 1,
-                            },
+                const body = Matter.Bodies.rectangle(position.x, position.y, dims.width, dims.height, {
+                    friction: dims.friction,
+                    restitution: dims.restitution,
+                    density: dims.density,
+                    chamfer: { radius: dims.chamferRadius },
+                    render: {
+                        sprite: {
+                            texture: canvas.toDataURL(),
+                            xScale: 1,
+                            yScale: 1,
                         },
                     },
-                )
+                    slop: 0.01,
+                    mass: 1,
+                })
 
                 if (item.type === "image") {
                     const img = new Image()
@@ -164,14 +184,39 @@ const PhysicsAnimation: React.FC<PhysicsAnimationProps> = ({ items }) => {
                 return body
             })
 
+            const wallOptions = {
+                isStatic: true,
+                friction: 0.3,
+                restitution: 0.1,
+                render: { fillStyle: "transparent" },
+                chamfer: { radius: 0 },
+            }
+
+            const wallThickness = 60
             const walls = [
-                Matter.Bodies.rectangle(containerRect.width / 2, containerRect.height + 30, containerRect.width, 60, {
-                    isStatic: true,
-                }),
-                Matter.Bodies.rectangle(0, containerRect.height / 2, 60, containerRect.height, { isStatic: true }),
-                Matter.Bodies.rectangle(containerRect.width, containerRect.height / 2, 60, containerRect.height, {
-                    isStatic: true,
-                }),
+                // Pared inferior ajustada exactamente al borde inferior
+                Matter.Bodies.rectangle(
+                    containerRect.width / 2,
+                    containerRect.height,
+                    containerRect.width + wallThickness * 2,
+                    wallThickness,
+                    wallOptions,
+                ),
+                // Paredes laterales
+                Matter.Bodies.rectangle(
+                    -wallThickness / 2,
+                    containerRect.height / 2,
+                    wallThickness,
+                    containerRect.height,
+                    wallOptions,
+                ),
+                Matter.Bodies.rectangle(
+                    containerRect.width + wallThickness / 2,
+                    containerRect.height / 2,
+                    wallThickness,
+                    containerRect.height,
+                    wallOptions,
+                ),
             ]
 
             Matter.World.add(engine.world, [...bodies, ...walls])
@@ -186,6 +231,32 @@ const PhysicsAnimation: React.FC<PhysicsAnimationProps> = ({ items }) => {
             })
 
             Matter.World.add(engine.world, mouseConstraint)
+
+            Matter.Events.on(engine, "collisionStart", (event) => {
+                event.pairs.forEach((pair) => {
+                    const bodyA = pair.bodyA
+                    const bodyB = pair.bodyB
+
+                    if (!bodyA.isStatic && !bodyB.isStatic) {
+                        const forceMagnitude = 0.0005
+                        const angleA = Math.random() * Math.PI * 2
+                        const angleB = Math.random() * Math.PI * 2
+
+                        Matter.Body.applyForce(bodyA, bodyA.position, {
+                            x: Math.cos(angleA) * forceMagnitude,
+                            y: Math.sin(angleA) * forceMagnitude,
+                        })
+
+                        Matter.Body.applyForce(bodyB, bodyB.position, {
+                            x: Math.cos(angleB) * forceMagnitude,
+                            y: Math.sin(angleB) * forceMagnitude,
+                        })
+
+                        Matter.Body.setAngularVelocity(bodyA, (Math.random() - 0.5) * 0.02)
+                        Matter.Body.setAngularVelocity(bodyB, (Math.random() - 0.5) * 0.02)
+                    }
+                })
+            })
 
             const runner = Matter.Runner.create()
             Matter.Runner.run(runner, engine)
@@ -217,4 +288,3 @@ const PhysicsAnimation: React.FC<PhysicsAnimationProps> = ({ items }) => {
 }
 
 export default PhysicsAnimation
-
