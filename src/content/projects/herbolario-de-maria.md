@@ -1,9 +1,11 @@
 ---
 name: Herbolario de María
-type: Corporativa
+type: Desarrollo Web
 img: proyecto-herbolario.png
+img2: proyecto-herbolario-2.png
 tag1: Diseño UX/UI
-tag2: Desarrollo Web
+tag2: Corporativa
+stack: Figma, Wordpress, Elementor
 ---
 En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
 

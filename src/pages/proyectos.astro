@@ -1,13 +1,35 @@
 ---
+import { getCollection } from 'astro:content';
 import ProjectsCard from '../components/ProjectsCard.astro';
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
+
+const allProjects = await getCollection('projects');
+const uniqueTypes = [...new Set(allProjects.map(project => project.data.type))];
 ---
 
-<head>
-    <meta name="robots" content="noindex, nofollow" />
-</head>
 <Layout title="Federico Sánchez - Front-End Developer">
+    <div
+        class="flex flex-col md:flex-row gap-4 justify-center py-6 px-4 overflow-x-auto"
+    >
+        <button
+            class="filter-btn active whitespace-nowrap rounded-full px-6 py-2 text-xl font-medium transition-colors bg-black border border-primary-purple text-white hover:opacity-90"
+            data-type="all"
+        >
+            Todos
+        </button>
+        {
+            uniqueTypes.map(type => (
+                <button
+                    class="filter-btn whitespace-nowrap rounded-full px-6 py-2 text-xl font-medium transition-colors bg-black text-gray-600 border border-primary-purple hover:bg-[#27272a]"
+                    data-type={type}
+                >
+                    {type}
+                </button>
+            ))
+        }
+    </div>
+
     <main
         class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-11 max-w-[1600px] mx-auto mb-20 md:mb-40 py-6 px-4 sm:px-6 lg:px-12 2xl:px-2"
     >
@@ -15,3 +37,44 @@ import Footer from '../components/Footer.astro';
     </main>
     <Footer />
 </Layout>
+
+<script>
+    function setupFilters() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projects = document.querySelectorAll('article');
+
+        if (filterButtons.length === 0 || projects.length === 0) return; // Evita errores si no hay elementos
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const selectedType = button.getAttribute('data-type');
+
+                projects.forEach(project => {
+                    const projectType =
+                        project.querySelector('.text-light-purple').textContent;
+
+                    if (
+                        selectedType === 'all' ||
+                        selectedType === projectType
+                    ) {
+                        project.style.display = 'flex';
+                        project.style.opacity = '0';
+                        setTimeout(() => {
+                            project.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        project.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        document.querySelector('[data-type="all"]')?.click();
+    }
+
+    document.addEventListener('astro:page-load', setupFilters);
+    document.addEventListener('DOMContentLoaded', setupFilters);
+</script>

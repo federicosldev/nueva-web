@@ -6,7 +6,8 @@ export default {
 			fontFamily: {
 				'title': ['Monigue'],
 				'paragrahp': ['Cssglykeregular'],
-				'banner': ['Menda']
+				'banner': ['Menda'],
+				'textFont': ['Darker Grotesque']
 			},
 			colors: {
 				'primary-purple': '#6976DF',

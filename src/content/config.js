@@ -5,8 +5,10 @@ const projects = defineCollection({
         name: z.string(),
         type: z.string(),
         img: z.string(),
+        img2: z.string(),
         tag1: z.string(),
         tag2: z.string(),
+        stack: z.string(),
     })
 })
 

@@ -217,5 +217,11 @@ const { title } = Astro.props;
 			background-color: #6976df;
 			color: #fff;
 		}
+		.filter-btn.active {
+			@apply bg-primary-purple text-white;
+		}
+		.filter-btn:not(.active) {
+			@apply bg-purple-bg text-light-purple hover:bg-primary-purple;
+		}
 	</style>
 </html>

@@ -1,11 +1,11 @@
 ---
-name: Herbolario de María
-type: Aplicación Web
-img: proyecto-herbolario.png
-img2: proyecto-clinica-veterinaria.webp
+name: Shield Sure
+type: Diseño UX/UI
+img: proyecto-shield-sure.webp
+img2: proyecto-shield-sure.webp
 tag1: Diseño UX/UI
-tag2: Desarrollo Web
-stack: Figma, React, Tailwind CSS, Vite
+tag2: Prototipado
+stack: Figma
 ---
 En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
 
