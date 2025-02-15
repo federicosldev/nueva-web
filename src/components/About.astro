@@ -107,21 +107,37 @@ const { title } = Astro.props;
             };
 
             if (window.innerWidth >= 1536) {
+                // Pantallas grandes (desktops, laptops grandes)
                 return baseConfig;
             } else if (window.innerWidth >= 1280) {
+                // Pantallas medianas (laptops medianas)
                 return {
                     ...baseConfig,
                     baseScale: 0.85,
                     fontSize: 21,
                     chamferRadius: 13,
                 };
-            } else {
+            } else if (window.innerWidth >= 1024) {
+                // Pantallas de laptop pequeñas
                 return {
                     ...baseConfig,
                     baseScale: 0.7,
                     fontSize: 18,
                     chamferRadius: 12,
-                    imageScale: 0.9,
+                    imageScale: 0.75,
+                    density: 0.0015,
+                    friction: 0.85,
+                    restitution: 0.18,
+                    heightMultiplier: 0.9,
+                };
+            } else {
+                // Pantallas muy pequeñas (tablets, móviles en landscape)
+                return {
+                    ...baseConfig,
+                    baseScale: 0.6,
+                    fontSize: 16,
+                    chamferRadius: 10,
+                    imageScale: 0.7,
                     density: 0.002,
                     friction: 0.9,
                     restitution: 0.15,
@@ -135,7 +151,7 @@ const { title } = Astro.props;
 
             return {
                 width: Math.round(baseWidth * config.baseScale),
-                height: Math.round(60 * config.heightMultiplier),
+                height: Math.round(50 * config.heightMultiplier), // Reducido de 60 a 50
                 fontSize: config.fontSize,
                 chamferRadius: config.chamferRadius,
                 imageScale: config.imageScale,
