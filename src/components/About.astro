@@ -30,7 +30,7 @@ const { title } = Astro.props;
 </section>
 
 <script>
-    import Matter from 'matter-js';
+    import * as Matter from 'matter-js';
 
     function initPhysics() {
         if (window.innerWidth < 1024) return;
@@ -43,7 +43,6 @@ const { title } = Astro.props;
         const MouseConstraint = Matter.MouseConstraint;
         const Runner = Matter.Runner;
 
-        let isRunning = false;
         let bodies = [];
 
         const container = document.querySelector('.physics-container');
@@ -78,7 +77,7 @@ const { title } = Astro.props;
         if (!dimensions) return;
 
         const engine = Engine.create({
-            gravity: { x: 0, y: 1, scale: 0.0008 }, // Reducida la gravedad para una caída más suave
+            gravity: { x: 0, y: 1, scale: 0.0008 },
         });
 
         const render = Render.create({
@@ -96,7 +95,7 @@ const { title } = Astro.props;
         const runner = Runner.create();
 
         const getSizeConfig = () => {
-            const largeScreen = {
+            const baseConfig = {
                 baseScale: 1,
                 fontSize: 24,
                 chamferRadius: 15,
@@ -107,18 +106,28 @@ const { title } = Astro.props;
                 heightMultiplier: 1,
             };
 
-            const mediumScreen = {
-                baseScale: 0.7,
-                fontSize: 18,
-                chamferRadius: 12,
-                imageScale: 0.9,
-                density: 0.002,
-                friction: 0.9,
-                restitution: 0.15,
-                heightMultiplier: 0.8,
-            };
-
-            return window.innerWidth >= 1536 ? largeScreen : mediumScreen;
+            if (window.innerWidth >= 1536) {
+                return baseConfig;
+            } else if (window.innerWidth >= 1280) {
+                return {
+                    ...baseConfig,
+                    baseScale: 0.85,
+                    fontSize: 21,
+                    chamferRadius: 13,
+                };
+            } else {
+                return {
+                    ...baseConfig,
+                    baseScale: 0.7,
+                    fontSize: 18,
+                    chamferRadius: 12,
+                    imageScale: 0.9,
+                    density: 0.002,
+                    friction: 0.9,
+                    restitution: 0.15,
+                    heightMultiplier: 0.8,
+                };
+            }
         };
 
         const getItemDimensions = baseWidth => {
@@ -262,7 +271,7 @@ const { title } = Astro.props;
 
                 const body = Bodies.rectangle(
                     spacing * (index + 1),
-                    -200 + yOffset, // Posición inicial un poco más arriba
+                    -200 + yOffset,
                     item.width,
                     item.height,
                     commonProperties,
@@ -314,14 +323,12 @@ const { title } = Astro.props;
             },
         });
 
-        // Iniciar el renderizado inmediatamente
         Render.run(render);
 
-        // Retrasar el inicio de la física y la adición de los cuerpos
         setTimeout(() => {
             World.add(engine.world, [...bodies, mouseConstraint]);
             Runner.run(runner, engine);
-        }, 500); // Retraso de 500ms antes de que empiecen a caer
+        }, 500);
 
         let resizeTimeout;
         window.addEventListener('resize', () => {
