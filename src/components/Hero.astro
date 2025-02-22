@@ -21,11 +21,34 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
                     class="h-10 sm:h-16 md:h-20 lg:h-24 xl:h-32 mt-[-14px] md:mt-0 mb-[16px] md:mb-0"
                     src="/hero-smile.svg"
                     alt="Icono investigación, desarrollo, diseño"
-                    id="hover-effect"
+                    id="hover-effect-1"
                 />
             </div>
             <div
-                id="floating-scroll"
+                id="floating-scroll-1"
+                class="hidden fixed pointer-events-none z-50"
+            >
+                <div
+                    class="relative w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden border border-dark p-2"
+                >
+                    <div
+                        class="absolute w-full h-full animate-spin-slow flex items-center justify-center p-5"
+                    >
+                        <img
+                            src="/text-scroll-smooth.svg"
+                            alt="Scroll"
+                            class="rotating-image absolute w-full h-full object-contain p-1"
+                        />
+                    </div>
+                    <img
+                        class="h-24 w-24 ml-2"
+                        src="/scroll-smooth.svg"
+                        alt="Efecto hover hero section"
+                    />
+                </div>
+            </div>
+            <div
+                id="floating-scroll-2"
                 class="hidden fixed pointer-events-none z-50"
             >
                 <div
@@ -37,13 +60,13 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
                         <img
                             src="/efecto-hover-hero.svg"
                             alt="Scroll"
-                            class="rotating-image absolute w-full h-full object-contain"
+                            class="rotating-image absolute w-full h-full object-contain p-1"
                         />
                     </div>
                     <img
                         class="h-24 w-24 ml-5"
                         src="/mano-keep-scrolling.svg"
-                        alt="Efecto hover hero section"
+                        alt="Efecto hover hero section 2"
                     />
                 </div>
             </div>
@@ -52,7 +75,7 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
                     class="h-10 sm:h-16 md:h-20 lg:h-24 xl:h-40"
                     src="/good-vibes.svg"
                     alt="Icono investigación, desarrollo, diseño"
-                    id="hover-effect"
+                    id="hover-effect-2"
                 />
                 <span
                     class="font-title text-6xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[14rem] leading-6 lg:leading-[0.8] text-primary-purple uppercase"
@@ -82,63 +105,94 @@ const scrollItems = ['DESARROLLO WEB', 'DISEÑO', 'SEO'];
     </div>
 </section>
 
-<div class="relative w-full mt-8 sm:mt-12 md:mt-16 md:h-[300px]">
+<div class="relative w-full mt-8 sm:mt-12 md:mt-20 md:h-[300px]">
     <section class="transform -rotate-6 w-full">
         <MarqueeText items={scrollItems} />
     </section>
 
-    <section class="transform rotate-6 w-full -mt-12 sm:-mt-16 md:-mt-20">
+    <section class="transform rotate-6 w-full -mt-12 sm:-mt-16 md:-mt-28">
         <MarqueeText items={scrollItems} direction="reverse" />
     </section>
 </div>
 
 <script>
     function initScrollEffect() {
-        const floatingScroll = document.getElementById('floating-scroll');
-        const hoverImages = document.querySelectorAll('img#hover-effect');
+        const floatingScroll1 = document.getElementById('floating-scroll-1');
+        const floatingScroll2 = document.getElementById('floating-scroll-2');
+        const hoverImages1 = document.querySelectorAll('img#hover-effect-1');
+        const hoverImages2 = document.querySelectorAll('img#hover-effect-2');
 
-        let isHovering = false;
+        let isHovering1 = false;
+        let isHovering2 = false;
         let scrollTimeout;
 
         const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
 
-        function updateFloatingScrollPosition(e) {
-            if (isHovering && isDesktop) {
+        function updateFloatingScrollPosition(e, floatingScroll) {
+            if (isDesktop) {
                 floatingScroll.style.left = `${e.clientX}px`;
                 floatingScroll.style.top = `${e.clientY}px`;
             }
         }
 
-        function showFloatingScroll() {
+        function showFloatingScroll(floatingScroll) {
             if (isDesktop) {
-                isHovering = true;
                 floatingScroll.classList.remove('hidden');
             }
         }
 
-        function hideFloatingScroll() {
+        function hideFloatingScroll(floatingScroll) {
             if (isDesktop) {
-                isHovering = false;
                 floatingScroll.classList.add('hidden');
             }
         }
 
+        function hideAllFloatingScrolls() {
+            hideFloatingScroll(floatingScroll1);
+            hideFloatingScroll(floatingScroll2);
+        }
+
         if (isDesktop) {
-            hoverImages.forEach(img => {
-                img.addEventListener('mouseenter', showFloatingScroll);
-                img.addEventListener('mouseleave', hideFloatingScroll);
+            hoverImages1.forEach(img => {
+                img.addEventListener('mouseenter', () => {
+                    isHovering1 = true;
+                    isHovering2 = false;
+                    hideAllFloatingScrolls();
+                    showFloatingScroll(floatingScroll1);
+                });
+                img.addEventListener('mouseleave', () => {
+                    isHovering1 = false;
+                    hideFloatingScroll(floatingScroll1);
+                });
             });
 
-            document.addEventListener(
-                'mousemove',
-                updateFloatingScrollPosition,
-            );
+            hoverImages2.forEach(img => {
+                img.addEventListener('mouseenter', () => {
+                    isHovering2 = true;
+                    isHovering1 = false;
+                    hideAllFloatingScrolls();
+                    showFloatingScroll(floatingScroll2);
+                });
+                img.addEventListener('mouseleave', () => {
+                    isHovering2 = false;
+                    hideFloatingScroll(floatingScroll2);
+                });
+            });
+
+            document.addEventListener('mousemove', e => {
+                if (isHovering1) {
+                    updateFloatingScrollPosition(e, floatingScroll1);
+                } else if (isHovering2) {
+                    updateFloatingScrollPosition(e, floatingScroll2);
+                }
+            });
 
             document.addEventListener('scroll', () => {
-                if (isHovering) {
-                    showFloatingScroll();
+                if (isHovering1 || isHovering2) {
                     clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(hideFloatingScroll, 1000);
+                    scrollTimeout = setTimeout(() => {
+                        hideAllFloatingScrolls();
+                    }, 1000);
                 }
             });
         }

@@ -2,70 +2,90 @@
 interface Props {
     direction?: 'normal' | 'reverse';
     items: string[];
+    duration?: number;
 }
 
-const { direction = 'normal', items } = Astro.props;
+const { direction = 'normal', items, duration = 20 } = Astro.props;
 ---
 
-<div class="bg-[#242229] py-3 sm:py-4 md:py-6 lg:py-8">
-    <div class={`marquee ${direction === 'reverse' ? 'marquee-reverse' : ''}`}>
+<div class="bg-[#242229] py-3 sm:py-4 md:py-6 lg:py-8 overflow-hidden">
+    <div
+        class={`marquee ${direction === 'reverse' ? 'marquee-reverse' : ''}`}
+        data-direction={direction}
+        data-duration={duration}
+    >
         <div class="track">
-            {
-                [...Array(2)].map(() => (
-                    <div class="content flex items-center">
-                        {items.map(item => (
-                            <>
-                                <span class="font-banner mx-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-white">
-                                    {item}
-                                </span>
-                                <img
-                                    class="w-4 h-4 sm:w-5 sm:h-5 md:w-10 md:h-10"
-                                    src="/star-icon.svg"
-                                    alt="Icono estrella"
-                                />
-                            </>
-                        ))}
-                    </div>
-                ))
-            }
+            <div class="content flex items-center whitespace-nowrap">
+                {
+                    items.map(item => (
+                        <>
+                            <span class="font-banner mx-12 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-white">
+                                {item}
+                            </span>
+                            <img
+                                class="w-4 h-4 sm:w-5 sm:h-5 md:w-10 md:h-10"
+                                src="/star-icon.svg"
+                                alt="Icono estrella"
+                            />
+                        </>
+                    ))
+                }
+            </div>
         </div>
     </div>
 </div>
 
+<script>
+    import { gsap } from 'gsap';
+
+    function setupMarquee(marquee) {
+        const track = marquee.querySelector('.track');
+        const content = marquee.querySelector('.content');
+        const direction = marquee.dataset.direction;
+        const duration = parseFloat(marquee.dataset.duration);
+
+        for (let i = 0; i < 5; i++) {
+            const clone = content.cloneNode(true);
+            track.appendChild(clone);
+        }
+
+        gsap.to(track.children, {
+            xPercent: direction === 'reverse' ? 100 : -100,
+            repeat: -1,
+            duration: duration,
+            ease: 'none',
+            modifiers: {
+                xPercent: gsap.utils.wrap(-100, 0),
+            },
+        });
+    }
+
+    function initMarquees() {
+        const marquees = document.querySelectorAll('.marquee');
+        marquees.forEach(setupMarquee);
+    }
+
+    // Run on initial load
+    initMarquees();
+
+    // Re-run when navigating between pages
+    document.addEventListener('astro:page-load', initMarquees);
+</script>
+
 <style>
     .marquee {
         position: relative;
-        --offset: 20vw;
-        --move-initial: calc(-25% + var(--offset));
-        --move-final: calc(-50% + var(--offset));
-    }
-
-    .marquee-reverse .track {
-        animation-direction: reverse;
     }
 
     .track {
-        width: fit-content;
         display: flex;
-        position: relative;
-        transform: translate3d(var(--move-initial), 0, 0);
-        animation: marquee 15s linear infinite;
+        width: fit-content;
     }
 
     .content {
         flex-shrink: 0;
         display: flex;
-        justify-content: space-evenly;
-        min-width: 100%;
-    }
-
-    @keyframes marquee {
-        0% {
-            transform: translate3d(var(--move-initial), 0, 0);
-        }
-
-        100% {
-            transform: translate3d(var(--move-final), 0, 0);
-        }
+        justify-content: space-around;
+        align-items: center;
     }
 </style>

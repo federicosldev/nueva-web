@@ -121,7 +121,6 @@ const { title } = Astro.props;
             canvas.height = height * scale;
             ctx.scale(scale, scale);
 
-            // Draw pill shape
             ctx.fillStyle = '#1d1d1d';
             const radius = height / 2;
             ctx.beginPath();
@@ -135,7 +134,6 @@ const { title } = Astro.props;
             ctx.closePath();
             ctx.fill();
 
-            // Add text
             ctx.fillStyle = '#fff';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -188,7 +186,6 @@ const { title } = Astro.props;
             });
         }
 
-        // Create walls with increased width for better containment
         const walls = [
             Bodies.rectangle(
                 dimensions.width / 2,
@@ -227,7 +224,6 @@ const { title } = Astro.props;
 
         World.add(engine.world, walls);
 
-        // Create mouse constraint with improved settings
         const mouse = Mouse.create(render.canvas);
         const mouseConstraint = MouseConstraint.create(engine, {
             mouse: mouse,
@@ -237,17 +233,33 @@ const { title } = Astro.props;
             },
         });
 
-        // Keep the mouse in sync with rendering
         render.mouse = mouse;
 
         Render.run(render);
 
-        setTimeout(() => {
-            bodies = createBodies();
-            World.add(engine.world, [...bodies, mouseConstraint]);
-            Runner.run(runner, engine);
-            isRunning = true;
-        }, 500);
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !isRunning) {
+                        setTimeout(() => {
+                            bodies = createBodies();
+                            World.add(engine.world, [
+                                ...bodies,
+                                mouseConstraint,
+                            ]);
+                            Runner.run(runner, engine);
+                            isRunning = true;
+                        }, 500);
+                    }
+                });
+            },
+            { threshold: 0.1 },
+        );
+
+        const physicsSection = document.querySelector('.physics-section');
+        if (physicsSection) {
+            observer.observe(physicsSection);
+        }
 
         let resizeTimeout;
         window.addEventListener('resize', () => {
@@ -295,10 +307,28 @@ const { title } = Astro.props;
                 World.clear(engine.world, true);
                 render.canvas.remove();
             }
+            observer.disconnect();
         };
     }
 
-    document.addEventListener('astro:page-load', initPhysics);
+    document.addEventListener('astro:page-load', () => {
+        const physicsSection = document.querySelector('.physics-section');
+        if (physicsSection) {
+            const observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            initPhysics();
+                            observer.disconnect();
+                        }
+                    });
+                },
+                { threshold: 0.1 },
+            );
+
+            observer.observe(physicsSection);
+        }
+    });
 </script>
 
 <style>
