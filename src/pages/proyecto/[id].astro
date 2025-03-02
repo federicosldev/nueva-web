@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
     const projects = await getCollection('projects');
@@ -19,35 +18,21 @@ const { name, type, img, img2, tag1, tag2, stack } = data;
 const { Content } = await render(project);
 
 const techStack = stack ? stack.split(',').map(tech => tech.trim()) : [];
-
-// Define image dimensions - adjust these to match your actual image dimensions
-const imageWidth = 1200;
-const imageHeight = 675; // Using 16:9 aspect ratio as an example
 ---
 
 <head>
     <meta name="robots" content="noindex, nofollow" />
-    <!-- Preload the critical image -->
-    <link rel="preload" href={`/${img2}`} as="image" />
 </head>
 <Layout title={`${name} - Federico Sanchez`}>
     <article
         class="max-w-screen-xl px-4 lg:px-10 mx-auto flex flex-col lg:flex-col gap-8 lg:gap-12 py-10"
     >
-        <Image
-            src={import(`../../../public/${img2 || '/placeholder.svg'}`)}
-            width={imageWidth}
-            height={imageHeight}
-            class="w-full lg:w-full object-cover rounded-xl"
-            alt={name}
-            loading="eager"
-            decoding="async"
+        <img
+            class="w-full lg:w-full lg:h-full object-cover rounded-xl"
             transition:name={`img-${slug}`}
-            format="webp"
-            quality={80}
+            src={`/${img2}`}
+            alt={name}
         />
-
-        <!-- Rest of your code remains the same -->
         <main
             class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-11 w-full mx-auto mb-20 md:mb-40 py-6 px-4 sm:px-6 lg:px-12 2xl:px-2"
         >

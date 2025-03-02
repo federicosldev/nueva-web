@@ -10,6 +10,13 @@ export default defineConfig({
   integrations: [tailwind()],
   output: 'static',          // or 'server' if you need SSR
   adapter: vercel(),
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+    },
+    remotePatterns: [{ protocol: 'https' }],
+    domains: [],
+  },
   vite: {
     ssr: {
       noExternal: ['matter-js'],
