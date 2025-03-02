@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/static';  // or 'serverless' if you need SSR
+import vercel from '@astrojs/vercel/static';  
 import react from '@astrojs/react';
 
 export default defineConfig({
@@ -8,7 +8,7 @@ export default defineConfig({
     tailwind(),
     
   ],
-  output: 'static',          // or 'server' if you need SSR
+  output: 'static',          
   adapter: vercel(),
   image: {
     service: {

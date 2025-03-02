@@ -20,14 +20,12 @@ const { Content } = await render(project);
 
 const techStack = stack ? stack.split(',').map(tech => tech.trim()) : [];
 
-// Define image dimensions - adjust these to match your actual image dimensions
 const imageWidth = 1200;
-const imageHeight = 675; // Using 16:9 aspect ratio as an example
+const imageHeight = 675;
 ---
 
 <head>
     <meta name="robots" content="noindex, nofollow" />
-    <!-- Preload the critical image -->
     <link rel="preload" href={`/${img2}`} as="image" />
 </head>
 <Layout title={`${name} - Federico Sanchez`}>
@@ -47,7 +45,6 @@ const imageHeight = 675; // Using 16:9 aspect ratio as an example
             quality={80}
         />
 
-        <!-- Rest of your code remains the same -->
         <main
             class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-11 w-full mx-auto mb-20 md:mb-40 py-6 px-4 sm:px-6 lg:px-12 2xl:px-2"
         >
