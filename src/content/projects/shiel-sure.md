@@ -1,20 +1,19 @@
 ---
 name: Shield Sure
 type: Diseño UX/UI
-img: proyecto-shield-sure.webp
-img2: proyecto-shield-sure.webp
-tag1: Diseño UX/UI
+img: shied-sure-website.webp
+img2: landing-shield-sure.webp
+tag1: Diseño Web
 tag2: Prototipado
 stack: Figma
 ---
-En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
+Este proyecto consistió en el diseño completo de una **landing page** para una empresa de seguros, enfocada en comunicar **confianza, seguridad y accesibilidad**. El objetivo era crear una experiencia visual atractiva y funcional que guiara al usuario de manera intuitiva a través de la información y los servicios ofrecidos.
 
-Diseñé una interfaz visual que transmitiera una sensación de cercanía y armonía con la naturaleza, utilizando colores verdes, tonos tierra y tipografías suaves que evocan naturalidad y tranquilidad.
-Creé un diseño intuitivo que mejora la experiencia del usuario, optimizando la navegación para facilitar el acceso a las secciones de productos, servicios, y recursos informativos sobre salud natural.
-Desarrollo:
+Se diseñó una interfaz **moderna y limpia**, con una estructura clara y elementos visuales que refuerzan el mensaje de la marca. Además, se trabajó en un **prototipo interactivo en Figma**, permitiendo visualizar la navegación y la experiencia del usuario antes del desarrollo.
 
-Implementé el diseño en una estructura web responsiva para asegurar que la experiencia sea óptima en dispositivos móviles, tabletas y computadoras.
-Integré una plataforma de ecommerce que permite a los clientes explorar y comprar productos de forma segura y sencilla.
-Aseguré que el sitio fuera rápido y accesible mediante optimizaciones en el código y el uso de herramientas de SEO, para mejorar la visibilidad en motores de búsqueda.
+### Tareas clave realizadas:
+- **Diseño de la interfaz y estructura de la landing:** un diseño equilibrado entre estética y funcionalidad, con secciones bien definidas que facilitan la comprensión de los servicios y fomentan la conversión.
 
-El resultado final es una web moderna y profesional que ayuda a destacar la misión del Herbolario de María, facilitando la conexión de los usuarios con productos y servicios que promueven el bienestar natural.
+- **Optimización de la experiencia de usuario (UX):** Se priorizó la claridad del mensaje y la accesibilidad, asegurando una navegación fluida e intuitiva para diferentes tipos de usuarios.
+
+- **Creación de un prototipo interactivo en Figma:** creación de un **prototipo navegable** que permite probar la experiencia del usuario antes de su implementación, facilitando ajustes y mejoras en el diseño.

@@ -1,20 +1,21 @@
 ---
 name: Windows 95
 type: Aplicación Web
-img: proyecto-windows.webp
-img2: proyecto-windows-2.webp
-tag1: Diseño UX/UI
+img: clon-windows-95.webp
+img2: aplicacion-clon-windows.webp
+tag1: Javascript
 tag2: Desarrollo Web
 stack: Figma, HTML, CSS, Javascript
 ---
-En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
+Este proyecto es una recreación funcional de **Windows 95**, desarrollada con **HTML, JavaScript Vanilla y CSS**. La interfaz mantiene la estética clásica del sistema operativo original, con ventanas que pueden moverse libremente, un **menú de inicio interactivo** y diversas aplicaciones funcionales.
 
-Diseñé una interfaz visual que transmitiera una sensación de cercanía y armonía con la naturaleza, utilizando colores verdes, tonos tierra y tipografías suaves que evocan naturalidad y tranquilidad.
-Creé un diseño intuitivo que mejora la experiencia del usuario, optimizando la navegación para facilitar el acceso a las secciones de productos, servicios, y recursos informativos sobre salud natural.
-Desarrollo:
+Entre las características principales, incluye un **gestor de tareas**, donde se pueden crear, editar y eliminar tareas de forma sencilla, y una versión completamente funcional del **Paint**, que permite dibujar con diferentes herramientas, cambiar colores y guardar los dibujos. Además, cuenta con opciones de personalización como **cambiar el fondo de pantalla** para adaptar la experiencia del usuario.
 
-Implementé el diseño en una estructura web responsiva para asegurar que la experiencia sea óptima en dispositivos móviles, tabletas y computadoras.
-Integré una plataforma de ecommerce que permite a los clientes explorar y comprar productos de forma segura y sencilla.
-Aseguré que el sitio fuera rápido y accesible mediante optimizaciones en el código y el uso de herramientas de SEO, para mejorar la visibilidad en motores de búsqueda.
+Este clon no solo busca replicar la apariencia de **Windows 95**, sino también su comportamiento, logrando una experiencia interactiva y nostálgica directamente desde el navegador.
 
-El resultado final es una web moderna y profesional que ayuda a destacar la misión del Herbolario de María, facilitando la conexión de los usuarios con productos y servicios que promueven el bienestar natural.
+### Tareas clave realizadas:
+- **Desarrollo de la interfaz y comportamiento del sistema:** se recreó el entorno de **Windows 95** con ventanas flotantes, íconos interactivos y un menú de inicio funcional, todo con **HTML, CSS y JavaScript puro**.
+
+- **Implementación de aplicaciones interactivas:** se desarrolló un **gestor de tareas** para organizar pendientes y un **Paint funcional**, permitiendo a los usuarios dibujar y guardar sus creaciones.
+
+- **Personalización del entorno:** se añadieron opciones para **cambiar el fondo de pantalla** y mejorar la experiencia de usuario, manteniendo la esencia del sistema operativo original.

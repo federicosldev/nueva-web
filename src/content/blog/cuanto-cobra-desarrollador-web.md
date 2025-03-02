@@ -1,6 +1,6 @@
 ---
 title: Cuánto cobra un Diseñador Web, Servicios y Tarifas
-img: provisional-blog.svg
+img: cuanto-cobra-un-diseno-web.svg
 extracto: Conoce cuanto cobra un diseñador web ✅ Todos sus servicios explicados ✚ Tarifas que puedes encontrarte.
 ---
 ## **Quiero una página web pero me da miedo el precio, no sé cuánto cobra un diseñador web**

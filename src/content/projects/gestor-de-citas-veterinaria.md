@@ -1,20 +1,19 @@
 ---
-name: Herbolario de María
+name: Gestor de citas clinica veterinaria
 type: Aplicación Web
-img: proyecto-herbolario.png
-img2: proyecto-clinica-veterinaria.webp
-tag1: Diseño UX/UI
+img: panel-gestion-pacientes-clinica.webp
+img2: gestor-de-citas-veterinaria.webp
+tag1: React
 tag2: Desarrollo Web
 stack: Figma, React, Tailwind CSS, Vite
 ---
-En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
+Este gestor de citas está diseñado para optimizar la organización en una clínica veterinaria, asegurando que cada consulta esté bien gestionada y accesible en todo momento. Con una interfaz intuitiva y un flujo de trabajo eficiente, permite añadir, editar y eliminar pacientes fácilmente, brindando un control total sobre la agenda de la clínica.
 
-Diseñé una interfaz visual que transmitiera una sensación de cercanía y armonía con la naturaleza, utilizando colores verdes, tonos tierra y tipografías suaves que evocan naturalidad y tranquilidad.
-Creé un diseño intuitivo que mejora la experiencia del usuario, optimizando la navegación para facilitar el acceso a las secciones de productos, servicios, y recursos informativos sobre salud natural.
-Desarrollo:
+Desarrollado con **React, Vite y TailwindCSS**, el sistema ofrece una experiencia fluida y moderna, asegurando rapidez y eficiencia en cada acción. Además, la información de los pacientes se almacena en **local storage**, lo que permite mantener los datos sin necesidad de una base de datos externa, garantizando accesibilidad y persistencia sin configuraciones adicionales. Una solución ágil, práctica y pensada para hacer más sencilla la gestión del día a día en una clínica veterinaria.
 
-Implementé el diseño en una estructura web responsiva para asegurar que la experiencia sea óptima en dispositivos móviles, tabletas y computadoras.
-Integré una plataforma de ecommerce que permite a los clientes explorar y comprar productos de forma segura y sencilla.
-Aseguré que el sitio fuera rápido y accesible mediante optimizaciones en el código y el uso de herramientas de SEO, para mejorar la visibilidad en motores de búsqueda.
+### Tareas clave realizadas:
+- **Diseñar la interfaz de usuario:** interfaz intuitiva y visualmente atractiva, priorizando la experiencia del usuario. Gracias a **TailwindCSS**, se logró un diseño limpio, moderno y altamente personalizable, facilitando la navegación y el acceso rápido a la información.
 
-El resultado final es una web moderna y profesional que ayuda a destacar la misión del Herbolario de María, facilitando la conexión de los usuarios con productos y servicios que promueven el bienestar natural.
+- **Desarrollo web responsive:** un diseño adaptable para que el gestor funcione perfectamente en cualquier dispositivo, desde ordenadores de escritorio hasta móviles y tablets. Esto garantiza que los veterinarios puedan gestionar citas sin importar dónde se encuentren.
+
+- **Almacenar los datos en local storage:** Para mejorar la accesibilidad sin necesidad de bases de datos externas, se utilizó **local storage**, permitiendo que los datos de los pacientes se mantengan guardados incluso al recargar la página. Esto asegura una experiencia fluida y sin interrupciones para los usuarios.

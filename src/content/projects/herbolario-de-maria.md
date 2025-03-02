@@ -2,19 +2,20 @@
 name: Herbolario de María
 type: Desarrollo Web
 img: proyecto-herbolario.png
-img2: proyecto-herbolario-2.png
+img2: herbolario-de-maria.webp
 tag1: Diseño UX/UI
 tag2: Corporativa
 stack: Figma, Wordpress, Elementor
 ---
-En este proyecto, me encargué del **diseño y desarrollo completo del sitio web para el Herbolario de María**, una tienda de productos naturales y servicios de bienestar. El objetivo principal era crear una plataforma atractiva, funcional y fácil de usar que reflejara la filosofía de salud y bienestar del herbolario.
+Este proyecto consistió en el diseño y desarrollo de la **página web** para el **Herbolario de María**, un espacio dedicado al bienestar y la naturaleza. Desde el diseño inicial hasta su implementación, trabajamos en una **experiencia de usuario fluida**, transmitiendo la esencia de la marca a través de una interfaz cálida y armoniosa.
 
-Diseñé una interfaz visual que transmitiera una sensación de cercanía y armonía con la naturaleza, utilizando colores verdes, tonos tierra y tipografías suaves que evocan naturalidad y tranquilidad.
-Creé un diseño intuitivo que mejora la experiencia del usuario, optimizando la navegación para facilitar el acceso a las secciones de productos, servicios, y recursos informativos sobre salud natural.
-Desarrollo:
+Para el diseño, se planteó una estética que reflejara la **conexión con la naturaleza** y la cercanía con el cliente. Utilizando **colores verdes y tonos tierra**, junto con **tipografías suaves**, para reforzar la sensación de tranquilidad y bienestar. Además, la estructura de la web se optimizó para **facilitar la navegación**, destacando la información más relevante para el usuario.
 
-Implementé el diseño en una estructura web responsiva para asegurar que la experiencia sea óptima en dispositivos móviles, tabletas y computadoras.
-Integré una plataforma de ecommerce que permite a los clientes explorar y comprar productos de forma segura y sencilla.
-Aseguré que el sitio fuera rápido y accesible mediante optimizaciones en el código y el uso de herramientas de SEO, para mejorar la visibilidad en motores de búsqueda.
+El desarrollo se realizó con **WordPress y Elementor**, permitiendo una **gestión sencilla del contenido** para el cliente. Implementamos **WooCommerce** para la administración eficiente de los productos, dejando abierta la posibilidad de vender online en el futuro.
 
-El resultado final es una web moderna y profesional que ayuda a destacar la misión del Herbolario de María, facilitando la conexión de los usuarios con productos y servicios que promueven el bienestar natural.
+### Tareas clave realizadas:
+- **Diseño UX/UI centrado en la experiencia del usuario:** trabajamos en una estructura intuitiva y visualmente atractiva, asegurando que la navegación fuera fluida y que la web transmitiera los valores del herbolario.
+
+- **Implementación en WordPress con Elementor:** optamos por esta solución para que se pudiera gestionar la web sin necesidad de conocimientos técnicos, asegurando autonomía y facilidad de uso.
+
+- **Configuración de WooCommerce para la gestión de productos:** aunque actualmente no se realizan ventas en línea, se estableció un sistema que permite administrar los productos de forma eficiente y escalable.

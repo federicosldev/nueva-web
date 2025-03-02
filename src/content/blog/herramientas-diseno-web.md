@@ -1,6 +1,6 @@
 ---
 title: 17 herramientas de diseño web que te harán la vida más fácil
-img: provisional-blog.svg
+img: herramientas-para-disenadores-web.svg
 extracto: Conoce que herramientas se usan en la actualidad para el diseño de páginas web, que te harán la vida mas fácil.
 ---
 

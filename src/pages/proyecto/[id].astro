@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { data, slug } = project;
-const { name, type, img, tag1, tag2, stack } = data;
+const { name, type, img, img2, tag1, tag2, stack } = data;
 
 const { Content } = await render(project);
 
@@ -30,7 +30,7 @@ const techStack = stack ? stack.split(',').map(tech => tech.trim()) : [];
         <img
             class="w-full lg:w-full lg:h-full object-cover rounded-xl"
             transition:name={`img-${slug}`}
-            src={`/${img}`}
+            src={`/${img2}`}
             alt={name}
         />
         <main
@@ -43,7 +43,7 @@ const techStack = stack ? stack.split(',').map(tech => tech.trim()) : [];
                     {name}
                 </h1>
                 <div
-                    class="prose prose-sm sm:prose lg:prose-2xl prose-invert md:prose-invert mb-20"
+                    class="prose prose-sm sm:prose lg:prose-2xl prose-invert md:prose-invert prose-headings:text-primary-purple prose-p:text-primary-purple prose-strong:text-primary-purple prose-strong:font-bold mb-20"
                 >
                     <Content />
                 </div>

@@ -1,6 +1,6 @@
 ---
 title: Los 36 mejores blogs de marketing digital [2025]
-img: provisional-blog.svg
+img: mejores-blogs-de-marketing-digital.svg
 extracto: Quieres saber cuales son los mejores blogs de marketing digital ✅ Mira este listado con los blogs de marketing digital de referencia dentro del sector.
 ---
 Hoy quiero enseñarte cuáles son los **mejores blogs de marketing digital** que yo personalmente utilizo para mantenerme al día sobre las últimas tendencias del sector y en los que también podrás aprender de la mano de grandes profesionales del marketing digital.
